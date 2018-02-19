@@ -1,1 +1,1 @@
-[{"name":"tudor"}]
+[{"id":"5a8b41dc1bdb4","first_name":"Tudor","last_name":"Dascalu","email":"tudor@g.com","password":"pass","age":"21"}]
