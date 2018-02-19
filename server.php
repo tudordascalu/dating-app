@@ -34,6 +34,8 @@ switch($sRequestType) {
         $iAge = $_POST['age'];
         $sEmail = $_POST['email'];
         $sPassword = $_POST['password'];
+        $aImage = $_FILES['image'];
+
         // $sImageUrl = $_POST['imgUrl'];
 /*
         if(!$sFirstName || !$sLastName || !$iAge || !$sEmail || !$sPassword || !$sImageUrl) {
@@ -66,6 +68,11 @@ switch($sRequestType) {
             exit;
         }
 
+        if(!isset($aImage)) {
+            echo '{"status":"error","message":"please upload an image"}';
+            exit;
+        }
+
         // create new user
         $jUser->id = uniqid();
         $jUser->first_name = $sFirstName;
@@ -73,6 +80,7 @@ switch($sRequestType) {
         $jUser->email = $sEmail;
         $jUser->password = $sPassword;
         $jUser->age = $iAge;
+        $sjUser = json_encode($jUser);
         
         // add user to array
         array_push($ajUsers, $jUser);
@@ -81,7 +89,33 @@ switch($sRequestType) {
         $sajUsers = json_encode($ajUsers);
         file_put_contents('./storage/users.txt', $sajUsers);
 
-        echo "{'status':'success', 'message':'user logged in', 'data':$jUser}";
+        // save image to file
+        saveImage($aImage);
+        
+        echo '{"status":"success", "message":"user signed up", "data":'.$sjUser.'}';
         exit;
+
     }
+}
+/*
+Array
+(
+    [name] => Babysam.svg
+    [type] => image/svg+xml
+    [tmp_name] => /Applications/MAMP/tmp/php/phpVD68o3
+    [error] => 0
+    [size] => 15075
+)
+*/
+function saveImage($aImage) {
+    $sName = $aImage['name'];
+    $sOldPath = $aImage['tmp_name'];
+
+    $aName = explode('.', $sName);
+    $sExt = $aName[count($aName)-1];
+    $sId = uniqid();
+
+    $sName = $sId.'.'.$sExt;
+    move_uploaded_file($sOldPath, './assets/images/'.$sName);
+    
 }
