@@ -36,7 +36,6 @@ switch($sRequestType) {
         $sPassword = $_POST['password'];
         $aImage = $_FILES['image'];
 
-        // $sImageUrl = $_POST['imgUrl'];
 /*
         if(!$sFirstName || !$sLastName || !$iAge || !$sEmail || !$sPassword || !$sImageUrl) {
             echo '{"status":"error","message":"make sure you fill up all the required fields"}';
