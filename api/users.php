@@ -64,6 +64,7 @@
         $jUser->email = $sEmail;
         $jUser->password = $sPassword;
         $jUser->age = $iAge;
+        $jUser->imageUrl = saveImage($aImage);
         $sjUser = json_encode($jUser);
         // add user to array
         array_push($ajUsers, $jUser);
@@ -73,7 +74,6 @@
         file_put_contents('./storage/users.txt', $sajUsers);
 
         // save image to file
-        saveImage($aImage);
         
         echo '{"status":"success", "message":"user signed up", "data":'.$sjUser.'}';
         exit;
@@ -90,5 +90,5 @@
 
         $sName = $sId.'.'.$sExt;
         move_uploaded_file($sOldPath, './assets/images/'.$sName);
-        
+        return './assets/images/'.$sName;
     }
