@@ -1,43 +1,49 @@
-<form enctype="multipart/form-data" class="signup-form">
+<form enctype="multipart/form-data" class="signup-form col s12">
     <div class="circle">
         <img class="profile-image" onerror="handleError(this)" style="height:100%;" src="./assets/images/user-icon.png">
     </div>
-    <div class="input-group">
-        <label>Email</label>
-        <input required type="email" name="email" id="email">
+    <div style="margin-top:40px" class="row">
+        <div class="input-field col s12">
+            <input name="firstName" id="firstName" type="text" class="validate">
+            <label for="firstName">First Name</label>
+        </div>
     </div>
-    <div class="input-group">
-        <label>Password</label>
-        <input required type="password" name="password" id="password">
+    <div class="row">
+        <div class="input-field col s12">
+            <input name="lastName" id="lastName" type="text" class="validate">
+            <label for="lastName">Last Name</label>
+        </div>
     </div>
-    <div class="input-group">
-        <label>Image Source</label>
-        <input required type="text" name="imageField" id="imageField">
+    <div class="row">
+        <div class="input-field col s12">
+            <input name="email" id="email" type="email" class="validate">
+            <label for="email">Email</label>
+        </div>
     </div>
-    <div class="input-group">
-        <label>First Name</label>
-        <input required type="text" name="firstName" id="firstName" maxlength="20">
+    <div class="row">
+        <div class="input-field col s12">
+            <input name="password" id="password" type="password" class="validate">
+            <label for="password">Password</label>
+        </div>
     </div>
-    <div class="input-group">
-        <label>Last Name</label>
-        <input required type="text" name="lastName" id="lastName" maxlength="20">
+    <div class="row">
+        <div class="input-field col s12">
+            <input id="age" name="age" type="number" class="validate">
+            <label for="age">Age</label>
+        </div>
     </div>
-    <div class="input-group">
-        <label>Age</label>
-        <input required type="number" name="age" id="age" maxlength="20">
+    <div class="row">
+        <div class="file-field input-field">
+            <div class="btn">
+                <span>File</span>
+                <input type="file" name="image">
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
+            </div>
+        </div>
     </div>
-    <!-- <div class="input-group">
-        <label>Image Source</label>
-        <input required type="text" name="imageField" id="imageField">
-    </div> -->
-    <div class="file-field input-field">
-      <div class="btn">
-        <span>File</span>
-        <input type="file">
-      </div>
-      <div class="file-path-wrapper">
-        <input class="file-path validate" type="text">
-      </div>
+    <div class="flex-button row">
+        <button type="submit" style="width:100%" class="btn center">Signup</button>
     </div>
-    <button type="submit" class="btnSignup">Signup</button>
 </form>

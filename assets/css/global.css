@@ -43,69 +43,19 @@ header {
 }
 
 .signup-form, .login-form {
-    height: 800px;
+    height: 700px;
     width: 500px;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     position: relative;
     background-color: #fff;
 }
 
-.input-group {
+.flex-button {
     display: flex;
-    flex-direction: column;
-    margin-bottom: 30px;
+    justify-content: center;
 }
-
-.input-group label {
-    font-size: .8em;
-    margin-bottom: 5px;
-    font-weight: 900;
-    color: #474e5d;
-    text-transform: uppercase;
-}
-
-.input-group input {
-    font-family: 'Trade Gothic Condensed';
-    border: none;
-    border-bottom: 1px solid #474e5d;
-    width: 250px;
-    color: #474e5d;
-    font-size: 1.3em;
-    padding: 10px 0;
-}
-
-input:focus {
-    outline: none;
-}
-
-.btnSignup, .btnLogin {
-
-    font-family: 'Trade Gothic Condensed';
-    width: 275px;
-    height: 50px;
-    margin-top: 30px;
-    background-color: #66BB6A;
-    color: #fff;
-    transition: .3s;
-    cursor: pointer;
-    text-decoration: none;
-    outline: none!important;
-    border: none!important;
-    text-transform: uppercase;
-    font-size: 1.2em;
-    font-weight: 900;
-}
-
-.btnSignup:focus {
-    outline: none;
-}
-
-.btnSignup:hover {
-    background-color: #4CAF50;
+.signup-form .row {
+    padding: 0 100px;
 }
 
 .error {
@@ -187,7 +137,7 @@ input:focus {
     justify-content: center;
     align-items: center;
 }
-
+/* 
 ul {
     display: flex;
     list-style: none;
@@ -207,4 +157,4 @@ li:hover {
 
 li.selected {
     border-bottom: 1px solid #474e5d
-}
+} */
