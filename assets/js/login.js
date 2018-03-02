@@ -1,4 +1,4 @@
-$(".signup-form").on("submit", function (event) {
+$(".login-form").on("submit", function (event) {
     event.preventDefault();
     var formData = new FormData($(this)[0]);
     submitForm(formData)
