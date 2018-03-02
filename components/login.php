@@ -1,14 +1,20 @@
-<form class="login-form">
+<form enctype="multipart/form-data" class="login-form col s12">
     <div class="circle">
         <img class="profile-image" onerror="handleError(this)" style="height:100%;" src="./assets/images/user-icon.png">
     </div>
-    <div class="input-group">
-        <label>Email</label>
-        <input required type="email" name="emailFied" id="emailField" maxlength="20">
+    <div class="row">
+        <div class="input-field col s12">
+            <input name="email" type="email" class="validate">
+            <label for="email">Email</label>
+        </div>
     </div>
-    <div class="input-group">
-        <label>Password</label>
-        <input required type="pass" name="passField" id="passField" maxlength="20">
+    <div class="row">
+        <div class="input-field col s12">
+            <input name="password" type="password" class="validate">
+            <label for="password">Password</label>
+        </div>
     </div>
-    <button type="submit" class="btnLogin">Login</button>
+    <div class="flex-button row">
+        <button type="submit" style="width:100%" class="btn center">Login</button>
+    </div>
 </form>

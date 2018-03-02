@@ -1,7 +1,8 @@
 $(".signup-form").on("submit", function (event) {
   event.preventDefault();
   var formData = new FormData($(this)[0]);
-  apiPostForm(formData)
+  sReqType = 'signup';
+  apiPostForm(formData, sReqType)
   .then(data => {
     console.log(data);
   })
@@ -10,10 +11,11 @@ $(".signup-form").on("submit", function (event) {
     });;
 });
 
-(".login-form").on("submit", function (event) {
+$(".login-form").on("submit", function (event) {
   event.preventDefault();
   var formData = new FormData($(this)[0]);
-  apiPostForm(formData)
+  sReqType = 'login';
+  apiPostForm(formData, sReqType)
   .then(data => {
     console.log(data);
     localStorage.setItem('USER_DATA', JSON.stringify(data))
@@ -23,10 +25,11 @@ $(".signup-form").on("submit", function (event) {
     });;
 });
 
-function apiPostForm(formData) {
+function apiPostForm(formData, sReqType) {
+  const sUrl = "/api/server.php?reqType=" + sReqType;
   return new Promise((resolve, reject) => {
     axios
-      .post("/api/server.php?reqType=signup", formData)
+      .post(sUrl, formData)
       .then(response => {
         resolve(JSON.stringify(response.data));
       })
