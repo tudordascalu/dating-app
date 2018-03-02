@@ -5,9 +5,11 @@ $(".signup-form").on("submit", function (event) {
   apiPostForm(formData, sReqType)
   .then(data => {
     console.log(data);
+    showPage("signup-page");
   })
     .catch(error => {
       console.log(error);
+      Materialize.toast('Could not sign you up!', 3000);
     });;
 });
 
@@ -17,10 +19,15 @@ $(".login-form").on("submit", function (event) {
   sReqType = 'login';
   apiPostForm(formData, sReqType)
   .then(data => {
+    if(!data.data) {
+      Materialize.toast("Username or password is incorrect", 3000);
+      return;
+    }
     localStorage.setItem('USER_DATA', JSON.stringify(data.data))
+    Materialize.toast("Successful login", 3000);
   })
     .catch(error => {
-      console.log(error);
+      Materialize.toast("Username or password is incorrect", 3000);
     });;
 });
 
@@ -29,6 +36,7 @@ function onLogout() {
   
   localStorage.removeItem('USER_DATA');
 }
+
 function apiPostForm(formData, sReqType) {
   const sUrl = "/api/server.php?reqType=" + sReqType;
   return new Promise((resolve, reject) => {

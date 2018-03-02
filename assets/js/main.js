@@ -1,73 +1,73 @@
-// // triggers
-// $('#navSignup').on('click', function () {
-//     $(this).addClass('selected');
-//     $('#navUsers').removeClass('selected');
-//     $('.users-page').fadeOut();
-//     $('.signup-page').fadeIn();
-// })
+// triggers
+$('#navSignup').on('click', function () {
+    $(this).addClass('selected');
+    $('#navUsers').removeClass('selected');
+    $('.users-page').fadeOut();
+    $('.signup-page').fadeIn();
+})
 
-// $('#navUsers').on('click', function () {
-//     $(this).addClass('selected');
-//     $('#navSignup').removeClass('selected');
-//     loadNextPage();
-//     $('.signup-page').fadeOut();
-//     $('.users-page').fadeIn();
-// })
-// $("#imageField").change(function () {
-//     const imageUrl = $(this).val();
-//     $(".profile-image").attr("src", imageUrl);
-// });
+$('#navUsers').on('click', function () {
+    $(this).addClass('selected');
+    $('#navSignup').removeClass('selected');
+    loadNextPage();
+    $('.signup-page').fadeOut();
+    $('.users-page').fadeIn();
+})
+$("#imageField").change(function () {
+    const imageUrl = $(this).val();
+    $(".profile-image").attr("src", imageUrl);
+});
 
-// $('.btnBack').on('click', function () {
-//     $('.users-page').hide();
-//     // $('.btnBack').hi
-//     $('.signup-page').css({ 'display': 'flex' });
-// })
-// // Submit form
-// $('.signup-form').submit(() => {
-//     event.preventDefault();
+$('.btnBack').on('click', function () {
+    $('.users-page').hide();
+    // $('.btnBack').hi
+    $('.signup-page').css({ 'display': 'flex' });
+})
+// Submit form
+$('.signup-form').submit(() => {
+    event.preventDefault();
 
-//     // get fields 
-//     const firstName = $('#nameField').val();
-//     const lastName = $('#lastNameField').val();
-//     const age = $('#ageField').val();
-//     const imageField = $('#imageField').val();
-//     let proceed = true;
+    // get fields 
+    const firstName = $('#nameField').val();
+    const lastName = $('#lastNameField').val();
+    const age = $('#ageField').val();
+    const imageField = $('#imageField').val();
+    let proceed = true;
 
-//     // test string
-//     var regEx = new RegExp("^[a-zA-Z]+$");
-//     if (!regEx.test(firstName)) {
-//         addError('#nameField');
-//         proceed = false;
-//     }
+    // test string
+    var regEx = new RegExp("^[a-zA-Z]+$");
+    if (!regEx.test(firstName)) {
+        addError('#nameField');
+        proceed = false;
+    }
 
-//     if (!regEx.test(lastName)) {
-//         addError('#lastNameField');
-//         proceed = false;
-//     }
+    if (!regEx.test(lastName)) {
+        addError('#lastNameField');
+        proceed = false;
+    }
 
-//     if (proceed) {
-//         let jUser = {
-//             'firstName': firstName,
-//             'lastName': lastName,
-//             'age': age,
-//             'imageUrl': imageField
-//         }
-//         let users = null;
-//         if (!localStorage.users) {
-//             users = [
-//                 jUser
-//             ];
-//         } else {
-//             users = JSON.parse(localStorage.users);
-//             users.push(jUser);
-//         }
-//         localStorage.users = JSON.stringify(users);
-//         loadNextPage();
-//     }
-// })
+    if (proceed) {
+        let jUser = {
+            'firstName': firstName,
+            'lastName': lastName,
+            'age': age,
+            'imageUrl': imageField
+        }
+        let users = null;
+        if (!localStorage.users) {
+            users = [
+                jUser
+            ];
+        } else {
+            users = JSON.parse(localStorage.users);
+            users.push(jUser);
+        }
+        localStorage.users = JSON.stringify(users);
+        loadNextPage();
+    }
+})
 
-// // methods
+// methods
 
 // function loadNextPage() {
 //     deleteChildren('flex-container');
@@ -95,16 +95,16 @@
 
 // }
 
-// // backup image
-// function handleError(elem) {
-//     $(elem).attr('src', './assets/images/user-icon.png');
-//     addError('#imageField');
-// }
+// backup image
+function handleError(elem) {
+    $(elem).attr('src', './assets/images/user-icon.png');
+    addError('#imageField');
+}
 
-// // append error class
-// function addError(elem) {
-//     $(elem).addClass('error');
-//     setTimeout(() => {
-//         $(elem).removeClass('error');
-//     }, 2500);
-// }
+// append error class
+function addError(elem) {
+    $(elem).addClass('error');
+    setTimeout(() => {
+        $(elem).removeClass('error');
+    }, 2500);
+}
