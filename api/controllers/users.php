@@ -26,12 +26,11 @@
         $sPassword = $_POST['password'];
         $aImage = $_FILES['image'];
 
-/*
-        if(!$sFirstName || !$sLastName || !$iAge || !$sEmail || !$sPassword || !$sImageUrl) {
+        if(!$sFirstName || !$sLastName || !$iAge || !$sEmail || !$sPassword || !$aImage['tmp_name']) {
             echo '{"status":"error","message":"make sure you fill up all the required fields"}';
             exit;
         }
-*/  
+  
         if(strlen($sFirstName) > 25 || strlen($sFirstName) < 2) {
             echo '{"status":"error","message":"first name length is not correct"}';
             exit;
