@@ -2,7 +2,7 @@
     <div class="circle">
         <img class="profile-image" onerror="handleError(this)" style="height:100%;" src="./assets/images/user-icon.png">
     </div>
-    <div class="row">
+    <div style="margin-top: 80px" class="row">
         <div class="input-field col s12">
             <input name="email" type="email" class="validate">
             <label for="email">Email</label>
@@ -15,6 +15,6 @@
         </div>
     </div>
     <div class="flex-button row">
-        <button type="submit" style="width:100%" class="btn center">Login</button>
+        <button type="submit" style="width:100%" class="btn">Login</button>
     </div>
 </form>
