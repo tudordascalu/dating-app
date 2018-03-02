@@ -1,4 +1,4 @@
-<form class="signup-form">
+<form class="login-form">
     <div class="circle">
         <img class="profile-image" onerror="handleError(this)" style="height:100%;" src="./assets/images/user-icon.png">
     </div>
@@ -10,5 +10,5 @@
         <label>Password</label>
         <input required type="pass" name="passField" id="passField" maxlength="20">
     </div>
-    <button type="submit" class="btnSignup">Login</button>
+    <button type="submit" class="btnLogin">Login</button>
 </form>

@@ -1,7 +1,27 @@
-const authService = require('../../services/authService');
-// import authService from '../../services/authService';
-// console.log(authService);
-$( ".signup-form" ).on( "submit", function( event ) {
-    event.preventDefault();
-    console.log( $( this ).serialize() );
+$(".signup-form").on("submit", function (event) {
+  event.preventDefault();
+  var formData = new FormData($(this)[0]);
+  submitForm(formData)
+  .then(data => {
+    console.log(data);
+  })
+    .catch(error => {
+      console.log(error);
+    });;
+});
+
+function submitForm(formData) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post("/api/server.php?reqType=signup", formData)
+      .then(response => {
+        console.log(response.data);
+        localStorage.setItem('USER_DATA', JSON.stringify(response.data))
+        resolve(JSON.stringify(response.data));
+      })
+      .catch(error => {
+        clearUserProfile();
+        reject({ "message": "user is not logged in" });
+      });
   });
+}
