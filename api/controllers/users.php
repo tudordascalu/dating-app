@@ -1,5 +1,22 @@
 <?php
     session_start(); //CRUD FOR SESSIONS
+    function verifyLogin() {
+        $id = $_GET['id'];
+        if($id === $_SESSION['id']) return true;
+        
+        return false;
+    }
+    
+    function getUsers($sajUsers) {
+        if(!verifyLogin()) {
+            echo '{"status":"error","message":"user is not logged in"}';
+            exit;
+        }
+        
+        echo '{"status":"success", "message":"user logged in", "data":'.$sajUsers.'}';
+        exit;
+    }
+
     function login($ajUsers) {
         $sEmail = $_POST['email'];
         $sPassword = $_POST['password'];

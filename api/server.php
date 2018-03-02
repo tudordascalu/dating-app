@@ -8,7 +8,7 @@ $ajUsers = json_decode($sajUsers);
 
 switch($sRequestType) {
     case 'getUsers': 
-        echo $sajUsers;
+        getUsers($sajUsers);
     break;
 
     case 'login': 
