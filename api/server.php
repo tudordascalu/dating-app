@@ -15,6 +15,10 @@ switch($sRequestType) {
         login($ajUsers);
     break;
 
+    case 'logout':
+        session_destroy();
+    break;
+
     case 'signup': 
         signup($ajUsers);
     break;

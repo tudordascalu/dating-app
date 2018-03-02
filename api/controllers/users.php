@@ -1,12 +1,15 @@
 <?php
     session_start(); //CRUD FOR SESSIONS
+    echo json_encode($_SESSION['id']);
     function login($ajUsers) {
         $sEmail = $_POST['email'];
         $sPassword = $_POST['password'];
         foreach($ajUsers as $jUser) {
             if($jUser->email === $sEmail && $jUser->password === $sPassword) {
                 $sjUser = json_encode($jUser);
+                echo $jUser->id;
                 $_SESSION['id'] = $jUser->id;
+                echo json_encode($_SESSION['id']);
                 echo '{"status":"success", "message":"user logged in", "data":'.$sjUser.'}';
                 exit;
             }
