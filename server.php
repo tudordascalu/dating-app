@@ -1,5 +1,5 @@
 <?php
-include './api/users.php';
+include './controllers/users.php';
 $sRequestType = $_GET['reqType'];
 
 // echo $sRequestType;
