@@ -19,3 +19,10 @@ function apiPostForm(formData, sReqType) {
       const jData = JSON.parse(localStorage['USER_DATA']);
       return jData.id;
   }
+
+
+function onLogout() {
+    if (!localStorage['USER_DATA']) return;
+    
+    localStorage.removeItem('USER_DATA');
+  }
