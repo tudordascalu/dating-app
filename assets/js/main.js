@@ -96,15 +96,15 @@ $('.signup-form').submit(() => {
 // }
 
 // backup image
-function handleError(elem) {
-    $(elem).attr('src', './assets/images/user-icon.png');
-    addError('#imageField');
-}
+// function handleError(elem) {
+//     $(elem).attr('src', './assets/images/user-icon.png');
+//     addError('#imageField');
+// }
 
-// append error class
-function addError(elem) {
-    $(elem).addClass('error');
-    setTimeout(() => {
-        $(elem).removeClass('error');
-    }, 2500);
-}
+// // append error class
+// function addError(elem) {
+//     $(elem).addClass('error');
+//     setTimeout(() => {
+//         $(elem).removeClass('error');
+//     }, 2500);
+// }

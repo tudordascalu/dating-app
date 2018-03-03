@@ -4,8 +4,11 @@ $(".signup-form").on("submit", function (event) {
   sReqType = 'signup';
   apiPostForm(formData, sReqType)
   .then(data => {
-    console.log(data);
-    showPage("signup-page");
+    if(!data.data) {
+      Materialize.toast("Make sure you filled up the form!", 3000);
+      return;
+    }
+    showPage("login-page");
   })
     .catch(error => {
       console.log(error);

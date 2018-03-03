@@ -1,7 +1,7 @@
 <form enctype="multipart/form-data" class="login-form col s12">
-    <div class="circle">
+    <!-- <div class="circle">
         <img class="profile-image" onerror="handleError(this)" style="height:100%;" src="./assets/images/user-icon.png">
-    </div>
+    </div> -->
     <div style="margin-top: 80px" class="row">
         <div class="input-field col s12">
             <input name="email" type="email" class="validate">

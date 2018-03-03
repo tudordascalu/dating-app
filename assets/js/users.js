@@ -24,17 +24,17 @@
 //     $('.users-page').fadeIn();
 
 // }
-getUsers();
-function getUsers() {
-    const sId = verifyAuth();
-    if(!sId) {
-        showPage('login-page');
-        return;
-    }
+// getUsers();
+// function getUsers() {
+//     const sId = verifyAuth();
+//     if(!sId) {
+//         showPage('login-page');
+//         return;
+//     }
     
-    apiGetUsers(sId).then(data => {
-        console.log(data);
-    }).catch(error => {
-        console.log(error);
-    })
-}
+//     apiGetUsers(sId).then(data => {
+//         console.log(data);
+//     }).catch(error => {
+//         console.log(error);
+//     })
+// }

@@ -108,5 +108,5 @@
 
         $sName = $sId.'.'.$sExt;
         move_uploaded_file($sOldPath, './assets/images/'.$sName);
-        return './assets/images/'.$sName;
+        return '/assets/images/'.$sName;
     }
