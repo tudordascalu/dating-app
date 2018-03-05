@@ -13,6 +13,7 @@ $jMatrix = json_decode($sjMatrix, '{}');
 
 switch($sRequestType) {
     case 'getUsers': 
+         verifyLogin();  
         getUsers($sajUsers);
     break;
 
@@ -21,7 +22,7 @@ switch($sRequestType) {
     break;
 
     case 'logout':
-        session_destroy();
+        logout();
     break;
 
     case 'signup': 

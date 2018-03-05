@@ -13,3 +13,18 @@ function apiGetUsers(sUserId) {
         });
     });
   }
+
+  function apiGetUser(sUserId) {
+    const sUrl = "/api/server.php?reqType=getUser&id=" + sUserId;
+    return new Promise((resolve, reject) => {
+      axios
+        .get(sUrl)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          clearUserProfile();
+          reject({ "message": "user is not logged in" });
+        });
+    });
+  }

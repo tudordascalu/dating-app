@@ -2,16 +2,14 @@
     session_start(); //CRUD FOR SESSIONS
     function verifyLogin() {
         $id = $_GET['id'];
-        echo $_SESSION['id'];
-        if($id === $_SESSION['id']) return true;
+        if($_SESSION[$id]) return $id;
         
         echo '{"status":"error","message":"user is not logged in"}';
         exit;
     }
     
     function getUsers($sajUsers) {
-       verifyLogin();
-        
+    
         echo '{"status":"success", "message":"user logged in", "data":'.$sajUsers.'}';
         exit;
     }
@@ -22,7 +20,7 @@
         foreach($ajUsers as $jUser) {
             if($jUser->email === $sEmail && $jUser->password === $sPassword) {
                 $sjUser = json_encode($jUser);
-                $_SESSION['id'] = $jUser->id;
+                $_SESSION[$jUser->id] = "logged in";
                 echo '{"status":"success", "message":"user logged in", "data":'.$sjUser.'}';
                 exit;
             }
@@ -31,6 +29,14 @@
         exit;
     }
 
+    function logout() {
+        $sId =  verifyLogin();
+        unset($_SESSION[$sId]);
+
+        echo '{"status":"success", "message":"user logged out", "data":'.$sId.'}';
+        exit;
+    }
+ 
     function signup($ajUsers) {
         $sFirstName = $_POST['firstName'];
         $sLastName = $_POST['lastName'];
