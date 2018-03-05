@@ -34,6 +34,19 @@ $(".login-form").on("submit", function (event) {
     });;
 });
 
+function onLike(response) {
+  const id = verifyAuth();
+  console.log(id,'user id');
+  const sLikeId = JSON.parse(localStorage['TINDER_USER_DATA']).id;
+  console.log(sLikeId, 'tinderId');
+  apiLike(id, sLikeId, response ).then(data => {
+    console.log(data, 'tinder data')
+    showPage('tinder-page');
+  }).catch(error => {
+    console.log(error);
+  })
+}
+
 function onLogout() {
   if (!localStorage['USER_DATA']) return;
   

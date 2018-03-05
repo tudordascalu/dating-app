@@ -3,7 +3,6 @@
     // $jMatrix = json_decode($sjMatrix);
     function onLike($ajUsers, $jMatrix) {
        verifyLogin();
-       echo 'da';
        $sId = $_GET['id'];
        $sLikeId = $_POST['likeId'];
        $sLike = $_POST['like'];
