@@ -15,8 +15,12 @@
         <?php require_once('./components/users.php');?>
     </div>
 
-     <div class="pages login-page">
+    <div class="pages login-page">
         <?php require_once('./components/login.php');?>
+    </div>
+
+    <div class="pages tinder-page">
+        <?php require_once('./components/tinder.php');?>
     </div>
 
     <?php require_once('./components/footer.php');?>

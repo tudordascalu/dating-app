@@ -25,6 +25,27 @@ function showPage(page) {
         return;
     }
 
+    if(page == 'tinder-page') {
+        const sId = verifyAuth();
+        apiGetUser(sId).then(data => {
+            console.log(data.data, 'data.data');
+            if(!data.data) {
+                showPage('login-page');
+            } else {
+                const jUser = data.data; 
+                $('.tinder-page .card-title').text(jUser.last_name+ ', '+jUser.age);
+                $('.tinder-page .card-image img').attr('src', jUser.imageUrl);
+                $('.pages').hide();
+                $('.tinder-page').show();
+                return;
+                // appendBoxes('flex-container', aUsers)
+            }
+        }).catch(error => {
+            console.log(error);
+        })
+        return;
+    }
+
     $('.pages').hide();
     $('.'+page).show();
 }
