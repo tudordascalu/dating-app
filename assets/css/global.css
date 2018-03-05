@@ -178,7 +178,9 @@ li.selected {
     right: 10px;
     bottom: 10px;
 }
-
+.error-message {
+    display: none;
+}
 @media screen and (min-width: 768px) {
     .tinder-page .card {
         height: 500px;

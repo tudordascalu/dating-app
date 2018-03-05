@@ -1,3 +1,4 @@
+<h1 class="error-message">There are no new users</h1>
 <div class="card">
         <div class="card-image">
           <img src="//wordpress.assets.sitecampaign.com/wp-content/uploads/2017/11/07095232/gallery-321.png">

@@ -24,7 +24,7 @@
         // echo json_encode($ajUsers);
         foreach($ajUsers as $jUser) {
             $sUserId = $jUser->id;
-            if(!$jMatrix[$sId][$sUserId]) {
+            if(!$jMatrix[$sId][$sUserId] && $sId != $sUserId) {
                 $jData->id = $jUser->id;
                 $jData->first_name = $jUser->first_name;
                 $jData->last_name = $jUser->last_name;
@@ -33,7 +33,7 @@
                 $jData->gender = $jUser->gender;
                 
                 $sjData = json_encode($jData);
-                echo '{"status":"success", "message":"like registered", "data":'.$sjData.'}';
+                echo '{"status":"success", "message":"this is the next user", "data":'.$sjData.'}';
                 exit;
             }
         }
@@ -42,7 +42,6 @@
     }
 
     function checkIfValidId($ajUsers, $sLikeId) {
-        echo $sLikeId;
         foreach($ajUsers as $jUser) {
             if($sLikeId == $jUser->id) {
                 // existing user

@@ -28,10 +28,19 @@ function showPage(page) {
     if(page == 'tinder-page') {
         const sId = verifyAuth();
         apiGetUser(sId).then(data => {
+            console.log(data, 'getUserData');
             console.log(data.data, 'data.data');
-            if(!data.data) {
+            if(data.status === 'forbidden') {
                 showPage('login-page');
-            } else {
+            } else if(data.status == 'error'){
+                $('.card').hide();
+                $('.error-message').show();
+                $('.pages').hide();
+                $('.tinder-page').show();
+                return;
+            } 
+            else {
+                
                 const jUser = data.data; 
                 localStorage['TINDER_USER_DATA'] = JSON.stringify(jUser);
                 $('.tinder-page .card-title').text(jUser.last_name+ ', '+jUser.age);
