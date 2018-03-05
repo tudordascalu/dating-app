@@ -1,9 +1,15 @@
 $(document).ready(function() {
-    showPage('login-page');
+    showPage('tinder-page');
     console.log('da');
 })
 function showPage(page) {
     console.log(page);
+    if(page === 'login-page' || page === 'signup-page') {
+        $('.navbar-container').hide();
+    } else {
+        $('.navbar-container').show();
+    }
+    
     if(!routeGuard(page)) {
         showPage('login-page');
         return;
