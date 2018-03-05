@@ -4,31 +4,31 @@
     </div>
     <div style="margin-top:40px" class="row">
         <div class="input-field col s12">
-            <input name="firstName" id="firstName" type="text" class="validate">
+            <input name="firstName" id="firstName" type="text" >
             <label for="firstName">First Name</label>
         </div>
     </div>
     <div class="row">
         <div class="input-field col s12">
-            <input name="lastName" id="lastName" type="text" class="validate">
+            <input name="lastName" id="lastName" type="text" >
             <label for="lastName">Last Name</label>
         </div>
     </div>
     <div class="row">
         <div class="input-field col s12">
-            <input name="email" id="email" type="email" class="validate">
+            <input name="email" id="email" type="email" >
             <label for="email">Email</label>
         </div>
     </div>
     <div class="row">
         <div class="input-field col s12">
-            <input name="password" id="password" type="password" class="validate">
+            <input name="password" id="password" type="password" >
             <label for="password">Password</label>
         </div>
     </div>
     <div class="row">
         <div class="input-field col s12">
-            <input id="age" name="age" type="number" class="validate">
+            <input id="age" name="age" type="number" >
             <label for="age">Age</label>
         </div>
     </div>
@@ -46,4 +46,5 @@
     <div class="flex-button row">
         <button type="submit" style="width:100%" class="btn center">Signup</button>
     </div>
+    <div class="row" style="font-size:18px;">Already have an account? <a onclick="showPage('login-page')">LOG IN</a></div>
 </form>

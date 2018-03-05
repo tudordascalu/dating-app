@@ -2,7 +2,9 @@
     font-family: 'Trade Gothic Condensed';
     src: url("https://s3.eu-central-1.amazonaws.com/sitecampaign/fonts/TRADEGOC.TTF");
 }
-
+a {
+    cursor: pointer!important;
+}
 body {
     height: 100vh;
     width: 100vw;
@@ -34,10 +36,14 @@ header {
     justify-content: center;
 }
 
+.signup-page {
+    margin: 50px;
+}
+
 
 
 .signup-form, .login-form {
-    height: 700px;
+    height: 750px;
     width: 500px;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
     position: relative;
@@ -179,6 +185,15 @@ li.selected {
     bottom: 10px;
 }
 .error-message {
+    display: none;
+    text-align: right;
+    font-size: 25px;
+    margin: 0;
+    background-color: orange;
+    padding: 10px;
+}
+
+.navbar-container {
     display: none;
 }
 @media screen and (min-width: 768px) {

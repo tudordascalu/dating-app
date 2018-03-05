@@ -27,7 +27,9 @@ $(".login-form").on("submit", function (event) {
       return;
     }
     localStorage.setItem('USER_DATA', JSON.stringify(data.data))
-    Materialize.toast("Successful login", 3000);
+    // Materialize.toast("Successful login", 3000);
+    showPage('tinder-page');
+    $('.navbar-container').show();
   })
     .catch(error => {
       Materialize.toast("Username or password is incorrect", 3000);
@@ -48,7 +50,17 @@ function onLike(response) {
 }
 
 function onLogout() {
-  if (!localStorage['USER_DATA']) return;
-  
   localStorage.removeItem('USER_DATA');
+  const id = verifyAuth();
+  apiLogout(id).then(data => {
+    console.log(data);
+    showPage('login-page');
+    $('.navbar-container').hide();
+  }).catch(error => {
+    console.log(error);
+    showPage('login-page');
+    $('.navbar-container').hide();
+  })
+  // if (!localStorage['USER_DATA']) return;
+
 }

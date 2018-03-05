@@ -5,7 +5,9 @@
 </head>
 
 <body>
-    <?php require_once('./components/navbar.php');?>
+    <div class="navbar-container">
+        <?php require_once('./components/navbar.php');?>
+    </div>
     
     <div class="pages signup-page">
         <?php require_once('./components/signup.php');?>

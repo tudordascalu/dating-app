@@ -40,7 +40,8 @@ function showPage(page) {
                 return;
             } 
             else {
-                
+                $('.card').show();
+                $('.error-message').hide();
                 const jUser = data.data; 
                 localStorage['TINDER_USER_DATA'] = JSON.stringify(jUser);
                 $('.tinder-page .card-title').text(jUser.last_name+ ', '+jUser.age);
