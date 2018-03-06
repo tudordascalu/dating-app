@@ -38,4 +38,9 @@ switch($sRequestType) {
         verifyLogin();
         getNextUser($ajUsers, $jMatrix);
     break;
+
+    case 'getMatches':
+        echo 'da';
+        getMatches($ajUsers, $jMatrix);
+    break;
 }

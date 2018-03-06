@@ -14,6 +14,21 @@ function apiGetUsers(sUserId) {
     });
   }
 
+  function apiGetMatches(sUserId) {
+    const sUrl = "/api/server.php?reqType=getMatches&id=" + sUserId;
+    return new Promise((resolve, reject) => {
+      axios
+        .get(sUrl)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          clearUserProfile();
+          reject({ "message": "user is not logged in" });
+        });
+    });
+  }
+
   function apiGetUser(sUserId) {
     const sUrl = "/api/server.php?reqType=getUser&id=" + sUserId;
     return new Promise((resolve, reject) => {

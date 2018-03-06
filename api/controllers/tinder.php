@@ -51,3 +51,23 @@
         echo '{"status":"error","message":"user id is not valid"}';
         exit;
     }
+
+    function getMatches($ajUsers, $jMatrix) {
+        $sId = verifyLogin();
+        $aMatches = [];
+        foreach($ajUsers as $jUser) {
+            $sUserId = $jUser->id;
+            if($jMatrix[$sId][$sUserId] == $jMatrix[$sUserId][$sId] && $jMatrix[$sId][$sUserId] == 'like') {
+                array_push($aMatches, $jUser);
+            }
+        }
+        if(count($aMatches) > 0) {
+            $saMatches = json_encode($aMatches);
+            echo '{"status":"success", "message":"here are your matches", "data":'.$saMatches.'}';
+            exit;
+        }
+        
+        echo '{"status":"error","message":"there are no matches"}';
+        exit;
+
+    }

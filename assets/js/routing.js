@@ -1,29 +1,29 @@
-$(document).ready(function() {
+$(document).ready(function () {
     // $('.pages').hide();
     showPage('tinder-page');
 })
 
 function showPage(page) {
     console.log(page);
-    if(page === 'login-page' || page === 'signup-page') {
+    if (page === 'login-page' || page === 'signup-page') {
         $('.navbar-container').hide();
     } else {
         $('.navbar-container').show();
     }
-    
-    if(!routeGuard(page)) {
+
+    if (!routeGuard(page)) {
         showPage('login-page');
         return;
     }
 
-    if(page == 'users-page') {
+    if (page == 'users-page') {
         const sId = verifyAuth();
         apiGetUsers(sId).then(data => {
             console.log(data);
-            if(!data.data) {
+            if (!data.data) {
                 showPage('login-page');
             } else {
-                const aUsers = data.data; 
+                const aUsers = data.data;
                 appendBoxes('flex-container', aUsers)
             }
         }).catch(error => {
@@ -32,26 +32,47 @@ function showPage(page) {
         return;
     }
 
-    if(page == 'tinder-page') {
+    if (page == 'matches-page') {
+        const sId = verifyAuth();
+        apiGetMatches(sId).then(data => {
+            console.log(data);
+            if (data.status === 'forbidden') {
+                showPage('login-page');
+            } else if (data.status == 'error') {
+                $('.card').hide();
+                $('.error-message').show();
+                $('.pages').hide();
+                $('.matches-page').show();
+            } else {
+                const aMatches = data.data;
+                appendBoxes('flex-container', aMatches)
+            }
+        }).catch(error => {
+            console.log(error);
+        })
+        return;
+    }
+
+    if (page == 'tinder-page') {
         const sId = verifyAuth();
         apiGetUser(sId).then(data => {
             console.log(data, 'getUserData');
             console.log(data.data, 'data.data');
-            if(data.status === 'forbidden') {
+            if (data.status === 'forbidden') {
                 showPage('login-page');
-            } else if(data.status == 'error'){
+            } else if (data.status == 'error') {
                 $('.card').hide();
                 $('.error-message').show();
                 $('.pages').hide();
                 $('.tinder-page').show();
                 return;
-            } 
+            }
             else {
                 $('.card').show();
                 $('.error-message').hide();
-                const jUser = data.data; 
+                const jUser = data.data;
                 localStorage['TINDER_USER_DATA'] = JSON.stringify(jUser);
-                $('.tinder-page .card-title').text(jUser.last_name+ ', '+jUser.age);
+                $('.tinder-page .card-title').text(jUser.last_name + ', ' + jUser.age);
                 $('.tinder-page .card-image img').attr('src', jUser.imageUrl);
                 $('.pages').hide();
                 $('.tinder-page').show();
@@ -65,13 +86,13 @@ function showPage(page) {
     }
 
     $('.pages').hide();
-    $('.'+page).show();
+    $('.' + page).show();
 }
 // check if user can see page
 function routeGuard(page) {
-    if(page == 'login-page' || page == 'signup-page') return true;
+    if (page == 'login-page' || page == 'signup-page') return true;
 
-    if(verifyAuth()) return true;
+    if (verifyAuth()) return true;
 
     return false;
 }
@@ -93,7 +114,7 @@ function appendBoxes(elem, users) {
     $('.' + elem).append('<div style="width:350px;margin-right:20px;"></div>');
     $('.' + elem).append('<div style="width:350px;margin-right:20px;"></div>');
     $('.' + elem).append('<div style="width:350px;margin-right:20px;"></div>');
-    
+
     $('.pages').hide();
     $('.users-page').show();
 }

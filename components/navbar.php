@@ -3,6 +3,7 @@
     <ul id="nav-mobile" class="left">
         <li><a onclick="showPage('tinder-page')">Tinder</a></li>
         <li><a onclick="showPage('users-page')">Users</a></li>
+        <li><a onclick="showPage('matches-page')">Matches</a></li>
     </ul>
     <ul id="nav-mobile" class="right">
         <li><a onclick="onLogout()">Logout</a></li>

@@ -16,6 +16,10 @@
     <div class="pages users-page">
         <?php require_once('./components/users.php');?>
     </div>
+    
+    <div class="pages matches-page">
+        <?php require_once('./components/matches.php');?>
+    </div>
 
     <div class="pages login-page">
         <?php require_once('./components/login.php');?>
