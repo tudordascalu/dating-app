@@ -14,6 +14,12 @@
 
        $sLike = $_POST['like'];
        $jMatrix[$sId][$sLikeId] = $sLike;
+       // check if it s a match and add new_match: 1 in jMatrix
+       if(isMatch($sId, $sLikeId)) {
+           $jMatrix[$sId]['new_match'] = 1;
+           $jMatrix[$sLikeId]['new_match'] = 1;
+       }
+       
        $sjMatrix = json_encode($jMatrix);
        file_put_contents('./storage/matches.txt', $sjMatrix);
        echo '{"status":"success", "message":"like registered", "data":'.$sjMatrix.'}';
@@ -52,6 +58,13 @@
         exit;
     }
 
+    function isMatch($jMatrix, $sId1, $sId2) { 
+        if($jMatrix[$sId1][$sId2] == $jMatrix[$sId2][$sId1] && $jMatrix[$sId1][$sId2] == 'like') {
+            return true;
+        }
+        return false;
+    }
+
     function getMatches($ajUsers, $jMatrix) {
         $sId = verifyLogin();
         $aMatches = [];
@@ -62,6 +75,9 @@
             }
         }
         if(count($aMatches) > 0) {
+            $jMatrix[$sId]['new_match'] = 0;
+            $sjMatrix = json_encode($jMatrix);
+            file_put_contents('../storage/matches.txt');
             $saMatches = json_encode($aMatches);
             echo '{"status":"success", "message":"here are your matches", "data":'.$saMatches.'}';
             exit;
