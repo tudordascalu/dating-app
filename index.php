@@ -9,7 +9,7 @@
         <?php require_once('./components/navbar.php');?>
     </div>
     
-    <div class="pages signup-page">
+    <div style="display: none" class="pages signup-page">
         <?php require_once('./components/signup.php');?>
     </div>
 

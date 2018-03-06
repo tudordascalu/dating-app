@@ -1,7 +1,8 @@
 $(document).ready(function() {
+    // $('.pages').hide();
     showPage('tinder-page');
-    console.log('da');
 })
+
 function showPage(page) {
     console.log(page);
     if(page === 'login-page' || page === 'signup-page') {

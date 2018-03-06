@@ -4,6 +4,7 @@ $(".signup-form").on("submit", function (event) {
   sReqType = 'signup';
   apiPostForm(formData, sReqType)
   .then(data => {
+    console.log(data);
     if(!data.data) {
       Materialize.toast("Make sure you filled up the form!", 3000);
       return;
@@ -22,6 +23,11 @@ $(".login-form").on("submit", function (event) {
   sReqType = 'login';
   apiPostForm(formData, sReqType)
   .then(data => {
+    console.log(data);
+    if(data.code == 403) {
+      Materialize.toast("Please verify your account", 3000);
+      return;
+    }
     if(!data.data) {
       Materialize.toast("Username or password is incorrect", 3000);
       return;
