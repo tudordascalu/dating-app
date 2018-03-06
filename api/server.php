@@ -40,7 +40,6 @@ switch($sRequestType) {
     break;
 
     case 'getMatches':
-        echo 'da';
         getMatches($ajUsers, $jMatrix);
     break;
 }
