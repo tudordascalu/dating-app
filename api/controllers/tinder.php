@@ -85,5 +85,15 @@
         
         echo '{"status":"error","message":"there are no matches"}';
         exit;
+    }
 
+    function isNewMatch($jMatrix) {
+        $sId = verifyLogin();
+        if($jMatrix[$sId]['new_match'] == 1) {
+            echo '{"status":"success","message":"you have a match"}';
+            exit;
+        }
+        
+        echo '{"status":"error","message":"there are no matches"}';
+        exit;
     }
