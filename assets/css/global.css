@@ -179,6 +179,7 @@ li.selected {
 
 .tinder-page .card-image {
     height: 370px;
+    overflow: hidden;
 }
 .btnContainer { 
     position: absolute;

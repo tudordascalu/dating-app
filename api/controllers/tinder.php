@@ -1,9 +1,23 @@
 <?php   
     // $sjMatrix = file_get_contents('./storage/matches.txt');
     // $jMatrix = json_decode($sjMatrix);
+    function checkNewMatch($jMatrix) {
+        $sId = verifyLogin();
+        $sjMatrix = json_encode($jMatrix[$sId]);
+        echo $sjMatrix;
+        if($jMatrix[$sId]['new_match'] == 1) {
+            echo 'dadada';
+            $jMatrix[$sId]['new_match'] = 0;
+            $sjMatrix = json_encode($jMatrix);
+            file_put_contents('./storage/matches.txt', $sjMatrix);
+            echo '{"status":"success", "message":"desktop notification", "data":'.$sjMatrix.'}';
+        }
+        
+        echo '{"status":"error", "message":"desktop notification"}';
+
+    }
     function onLike($ajUsers, $jMatrix) {
-       verifyLogin();
-       $sId = $_GET['id'];
+       $sId = verifyLogin();
        $sLikeId = $_POST['likeId'];
        $sLike = $_POST['like'];
        if($sId == $sLikeId) {

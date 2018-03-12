@@ -8,7 +8,7 @@ function apiGetUsers(sUserId) {
           resolve(response.data);
         })
         .catch(error => {
-          clearUserProfile();
+          // clearUserProfile();
           reject({ "message": "user is not logged in" });
         });
     });
@@ -23,7 +23,22 @@ function apiGetUsers(sUserId) {
           resolve(response.data);
         })
         .catch(error => {
-          clearUserProfile();
+          // clearUserProfile();
+          reject({ "message": "user is not logged in" });
+        });
+    });
+  }
+
+  function apiCheckNewMatch(sUserId) {
+    const sUrl = "/api/server.php?reqType=newMatch&id=" + sUserId;
+    return new Promise((resolve, reject) => {
+      axios
+        .get(sUrl)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          // clearUserProfile();
           reject({ "message": "user is not logged in" });
         });
     });
@@ -38,7 +53,7 @@ function apiGetUsers(sUserId) {
           resolve(response.data);
         })
         .catch(error => {
-          clearUserProfile();
+          // clearUserProfile();
           reject({ "message": "user is not logged in" });
         });
     });
@@ -62,7 +77,7 @@ function apiGetUsers(sUserId) {
           console.log(response.data, "response.data");
         })
         .catch(error => {
-          clearUserProfile();
+          // clearUserProfile();
           reject({ "message": "user is not logged in" });
         });
     });

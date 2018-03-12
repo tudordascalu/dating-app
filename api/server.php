@@ -42,4 +42,8 @@ switch($sRequestType) {
     case 'getMatches':
         getMatches($ajUsers, $jMatrix);
     break;
+    
+    case 'newMatch':
+        checkNewMatch($jMatrix);
+    break;
 }
