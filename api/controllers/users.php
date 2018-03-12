@@ -1,23 +1,21 @@
 <?php
-    session_start(); //CRUD FOR SESSIONS
-    // Import PHPMailer classes into the global namespace
-    // These must be at the top of your script, not inside a function
+    session_start();
+    
+    include './helpers/authHelper.php';
+    
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
-
-    //Load composer's autoloader
     require '../vendor/autoload.php';
 
-    function verifyLogin() {
-        $id = $_GET['id'];
-        if($_SESSION[$id]) return $id;
+    // function verifyLogin() {
+    //     $id = $_GET['id'];
+    //     if($_SESSION[$id]) return $id;
         
-        echo '{"status":"forbidden","message":"user is not logged in"}';
-        exit;
-    }
+    //     echo '{"status":"forbidden","message":"user is not logged in"}';
+    //     exit;
+    // }
     
     function getUsers($sajUsers) {
-    
         echo '{"status":"success", "message":"user logged in", "data":'.$sajUsers.'}';
         exit;
     }
@@ -64,7 +62,7 @@
                 exit;
             }
         }
-        
+
         if(!$sFirstName || !$sLastName || !$iAge || !$sEmail || !$sPassword || !$aImage['tmp_name']) {
             echo '{"status":"error","message":"make sure you fill up all the required fields"}';
             exit;

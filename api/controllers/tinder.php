@@ -1,6 +1,4 @@
-<?php   
-    // $sjMatrix = file_get_contents('./storage/matches.txt');
-    // $jMatrix = json_decode($sjMatrix);
+<?php
     function checkNewMatch($jMatrix) {
         $sId = verifyLogin();
         $sjMatrix = json_encode($jMatrix[$sId]);
@@ -13,10 +11,10 @@
             echo '{"status":"success", "message":"desktop notification", "data":'.$sjMatrix.'}';
             exit;
         }
-        
-        echo '{"status":"error", "message":"desktop notification"}';
 
+        echo '{"status":"error", "message":"desktop notification"}';
     }
+
     function onLike($ajUsers, $jMatrix) {
        $sId = verifyLogin();
        $sLikeId = $_POST['likeId'];
@@ -27,9 +25,8 @@
        }
        checkIfValidId($ajUsers, $sLikeId);
 
-    //    $sLike = $_POST['like'];
        $jMatrix[$sId][$sLikeId] = $sLike;
-       // check if it s a match and add new_match: 1 in jMatrix
+      
        if(isMatch($jMatrix, $sId, $sLikeId)) {
            $jMatrix[$sId]['new_match'] = 1;
            $jMatrix[$sLikeId]['new_match'] = 1;
