@@ -58,12 +58,13 @@
         $aImage = $_FILES['image']; 
 
         
-        foreach($ajUsers as $jUser) {
-            if($jUser->email == $sEmail) {
+        foreach($ajUsers as $jU) {
+            if($jU->email == $sEmail) {
                 echo '{"status":"error","message":"email already exists"}';
                 exit;
             }
         }
+        
         if(!$sFirstName || !$sLastName || !$iAge || !$sEmail || !$sPassword || !$aImage['tmp_name']) {
             echo '{"status":"error","message":"make sure you fill up all the required fields"}';
             exit;

@@ -11,11 +11,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if(data.status == "success") {
             notifyMe();
         }
-        console.log(data, 'data');
     }).catch(error => {
-        console.log("no new match");
+        // console.log("no new match");
     })
-  }, 500);
+  }, 5000);
   function notifyMe() {
     if (Notification.permission !== "granted")
       Notification.requestPermission();

@@ -4,13 +4,14 @@
     function checkNewMatch($jMatrix) {
         $sId = verifyLogin();
         $sjMatrix = json_encode($jMatrix[$sId]);
-        echo $sjMatrix;
+        // echo $sjMatrix;
         if($jMatrix[$sId]['new_match'] == 1) {
-            echo 'dadada';
+            // echo 'dadada';
             $jMatrix[$sId]['new_match'] = 0;
             $sjMatrix = json_encode($jMatrix);
             file_put_contents('./storage/matches.txt', $sjMatrix);
             echo '{"status":"success", "message":"desktop notification", "data":'.$sjMatrix.'}';
+            exit;
         }
         
         echo '{"status":"error", "message":"desktop notification"}';
