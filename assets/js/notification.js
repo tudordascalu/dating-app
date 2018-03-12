@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (Notification.permission !== "granted")
       Notification.requestPermission();
     else {
-      var notification = new Notification('Notification title', {
-        icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+      var notification = new Notification('Tinder', {
+        icon: 'http://sitecampaign.com/wp-content/themes/sitecampaign-sage//dist/images/icon_1.svg',
         body: "You have a new match!",
       });
   
