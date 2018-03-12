@@ -59,6 +59,7 @@ function apiGetUsers(sUserId) {
         .post(sUrl, formData)
         .then(response => {
           resolve(response.data);
+          console.log(response.data, "response.data");
         })
         .catch(error => {
           clearUserProfile();

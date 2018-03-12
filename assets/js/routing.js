@@ -73,7 +73,7 @@ function showPage(page) {
                 const jUser = data.data;
                 localStorage['TINDER_USER_DATA'] = JSON.stringify(jUser);
                 $('.tinder-page .card-title').text(jUser.last_name + ', ' + jUser.age);
-                $('.tinder-page .card-image img').attr('src', jUser.imageUrl);
+                $('.tinder-page .card-image img').attr('src', '/api/' + jUser.imageUrl);
                 $('.pages').hide();
                 $('.tinder-page').show();
                 return;

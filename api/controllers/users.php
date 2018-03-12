@@ -55,8 +55,15 @@
         $iAge = $_POST['age'];
         $sEmail = $_POST['email'];
         $sPassword = $_POST['password'];
-        $aImage = $_FILES['image'];
+        $aImage = $_FILES['image']; 
 
+        
+        foreach($ajUsers as $jUser) {
+            if($jUser->email == $sEmail) {
+                echo '{"status":"error","message":"email already exists"}';
+                exit;
+            }
+        }
         if(!$sFirstName || !$sLastName || !$iAge || !$sEmail || !$sPassword || !$aImage['tmp_name']) {
             echo '{"status":"error","message":"make sure you fill up all the required fields"}';
             exit;
@@ -153,7 +160,7 @@
             //Content
             $mail->isHTML(true);                                  // Set email format to HTML
             $mail->Subject = 'TINDER - account verification';
-            $mail->Body    = "Please click on the following link to verify the account </br> http://localhost/api/verify.php?key=$key";
+            $mail->Body    = "Please click on the following link to verify the account </br> <a href='http://localhost/api/verify.php?key=$key' target='_blank'>http://localhost/api/verify.php?key=$key</a>";
             // $mail->AltBody = "http://localhost/api/verify.php?key=$key";
 
             $mail->send();

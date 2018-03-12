@@ -12,10 +12,10 @@
        }
        checkIfValidId($ajUsers, $sLikeId);
 
-       $sLike = $_POST['like'];
+    //    $sLike = $_POST['like'];
        $jMatrix[$sId][$sLikeId] = $sLike;
        // check if it s a match and add new_match: 1 in jMatrix
-       if(isMatch($sId, $sLikeId)) {
+       if(isMatch($jMatrix, $sId, $sLikeId)) {
            $jMatrix[$sId]['new_match'] = 1;
            $jMatrix[$sLikeId]['new_match'] = 1;
        }

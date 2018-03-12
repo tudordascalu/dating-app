@@ -30,7 +30,7 @@ switch($sRequestType) {
     break;
     
     case 'like': 
-        verifyLogin();
+        // verifyLogin();
         onLike($ajUsers, $jMatrix);
     break;
 
