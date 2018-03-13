@@ -1,4 +1,4 @@
-<form enctype="multipart/form-data" class="signup-form col s12">
+<form style="margin-top: 300px" enctype="multipart/form-data" class="signup-form col s12">   
     <div class="circle">
         <img class="profile-image" onerror="handleError(this)" style="height:100%;" src="./assets/images/user-icon.png">
     </div>
@@ -12,6 +12,15 @@
         <div class="input-field col s12">
             <input name="lastName" id="lastName" type="text" >
             <label for="lastName">Last Name</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12">
+            <select name="gender">
+                <option value="" disabled selected>Gender</option>
+                <option value="1">Male</option>
+                <option value="2">Female</option>
+            </select>
         </div>
     </div>
     <div class="row">
@@ -30,6 +39,21 @@
         <div class="input-field col s12">
             <input id="age" name="age" type="number" >
             <label for="age">Age</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12">
+          <textarea name="description" class="materialize-textarea"></textarea>
+          <label for="description">Short description</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-field col s12">
+            <select name="interest">
+                <option value="" disabled selected>Interested in</option>
+                <option value="m">Male</option>
+                <option value="f">Female</option>
+            </select>
         </div>
     </div>
     <div class="row">

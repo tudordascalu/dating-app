@@ -1,6 +1,7 @@
 $(document).ready(function () {
     // $('.pages').hide();
     showPage('tinder-page');
+    $('select').material_select();
 })
 
 function showPage(page) {

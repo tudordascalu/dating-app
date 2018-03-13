@@ -1,5 +1,6 @@
 // request permission on page load
 document.addEventListener('DOMContentLoaded', function () {
+    $('select').material_select();
     if (Notification.permission !== "granted")
       Notification.requestPermission();
   });
