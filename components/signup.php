@@ -18,8 +18,8 @@
         <div class="input-field col s12">
             <select name="gender">
                 <option value="" disabled selected>Gender</option>
-                <option value="1">Male</option>
-                <option value="2">Female</option>
+                <option value="0">Male</option>
+                <option value="1">Female</option>
             </select>
         </div>
     </div>
@@ -51,8 +51,8 @@
         <div class="input-field col s12">
             <select name="interest">
                 <option value="" disabled selected>Interested in</option>
-                <option value="m">Male</option>
-                <option value="f">Female</option>
+                <option value="0">Male</option>
+                <option value="1">Female</option>
             </select>
         </div>
     </div>

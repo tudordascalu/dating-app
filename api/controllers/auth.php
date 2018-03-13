@@ -6,14 +6,6 @@
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
     require '../vendor/autoload.php';
-
-    // function verifyLogin() {
-    //     $id = $_GET['id'];
-    //     if($_SESSION[$id]) return $id;
-        
-    //     echo '{"status":"forbidden","message":"user is not logged in"}';
-    //     exit;
-    // }
     
     function getUsers($sajUsers) {
         echo '{"status":"success", "message":"user logged in", "data":'.$sajUsers.'}';
@@ -54,6 +46,9 @@
         $sEmail = $_POST['email'];
         $sPassword = $_POST['password'];
         $aImage = $_FILES['image']; 
+        $sGender = $_POST['gender'];
+        $sInterest = $_POST['interest'];
+        $sDescription = $_POST['description'];
 
         
         foreach($ajUsers as $jU) {
@@ -98,6 +93,20 @@
             exit;
         }
 
+        if(!$sGender) {
+            echo '{"status":"error","message":"please specify gender"}';
+            exit;
+        }        
+
+        if(!$sInterest) {
+            echo '{"status":"error","message":"please specify interest"}';
+            exit;
+        }
+        
+        if(!$sDescription) {
+            echo '{"status":"error","message":"please describe yourself"}';
+            exit;
+        }
         // create new user
         $jUser->id = uniqid();
         $jUser->first_name = $sFirstName;
@@ -105,6 +114,9 @@
         $jUser->email = $sEmail;
         $jUser->password = $sPassword;
         $jUser->age = $iAge;
+        $jUser->gender = $sGender;
+        $jUser->description = $sDescription;
+        $jUser->interest = $sInterest;
         $jUser->imageUrl = saveImage($aImage);
         $jUser->verified = 0;
         $jUser->activation_key = uniqid();

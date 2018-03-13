@@ -1,5 +1,5 @@
 <?php
-include './controllers/users.php';
+include './controllers/auth.php';
 include './controllers/tinder.php';
 
 $sRequestType = $_GET['reqType'];
