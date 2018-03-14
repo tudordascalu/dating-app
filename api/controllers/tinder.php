@@ -39,7 +39,7 @@
 
     function getNextUser($ajUsers, $jMatrix) {
         $sId = $_GET['id'];
-        // echo json_encode($ajUsers);
+        
         foreach($ajUsers as $jUser) {
             $sUserId = $jUser->id;
             if(!$jMatrix[$sId][$sUserId] && $sId != $sUserId) {
@@ -49,6 +49,7 @@
                 $jData->imageUrl = $jUser->imageUrl;
                 $jData->age = $jUser->age;
                 $jData->gender = $jUser->gender;
+                $jData->description = $jUser->description;
                 
                 $sjData = json_encode($jData);
                 echo '{"status":"success", "message":"this is the next user", "data":'.$sjData.'}';
