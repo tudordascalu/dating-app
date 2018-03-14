@@ -46,8 +46,8 @@
         $sEmail = $_POST['email'];
         $sPassword = $_POST['password'];
         $aImage = $_FILES['image']; 
-        $sGender = $_POST['gender'];
-        $sInterest = $_POST['interest'];
+        $iGender = $_POST['gender'];
+        $iInterest = $_POST['interest'];
         $sDescription = $_POST['description'];
 
         
@@ -93,12 +93,14 @@
             exit;
         }
 
-        if(!$sGender) {
+        if($iGender != 0 && $iGender != 1 ) {
+            echo $iGender;
             echo '{"status":"error","message":"please specify gender"}';
             exit;
         }        
 
-        if(!$sInterest) {
+        if($iInterest != 0 && $iInterest !=1) {
+            echo $iInterest;
             echo '{"status":"error","message":"please specify interest"}';
             exit;
         }
@@ -114,9 +116,9 @@
         $jUser->email = $sEmail;
         $jUser->password = $sPassword;
         $jUser->age = $iAge;
-        $jUser->gender = $sGender;
+        $jUser->gender = $iGender;
         $jUser->description = $sDescription;
-        $jUser->interest = $sInterest;
+        $jUser->interest = $iInterest;
         $jUser->imageUrl = saveImage($aImage);
         $jUser->verified = 0;
         $jUser->activation_key = uniqid();
