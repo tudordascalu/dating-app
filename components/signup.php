@@ -43,7 +43,7 @@
     </div>
     <div class="row">
         <div class="input-field col s12">
-          <textarea name="description" class="materialize-textarea"></textarea>
+          <textarea minlength="5" count data-length="120" name="description" class="materialize-textarea"></textarea>
           <label for="description">Short description</label>
         </div>
     </div>

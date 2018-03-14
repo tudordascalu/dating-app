@@ -46,7 +46,7 @@ function showPage(page) {
                 $('.matches-page').show();
             } else {
                 const aMatches = data.data;
-                appendBoxes('flex-container', aMatches)
+                appendBoxes('flex-container', aMatches, true)
             }
         }).catch(error => {
             console.log(error);
@@ -56,7 +56,8 @@ function showPage(page) {
 
     if (page == 'tinder-page') {
         const sId = verifyAuth();
-        apiGetUser(sId).then(data => {
+        const iInterest = getUserInterest();
+        apiGetUser(sId, iInterest).then(data => {
             console.log(data, 'getUserData');
             console.log(data.data, 'data.data');
             if (data.status === 'forbidden') {
@@ -74,11 +75,11 @@ function showPage(page) {
                 const jUser = data.data;
                 localStorage['TINDER_USER_DATA'] = JSON.stringify(jUser);
                 $('.tinder-page .card-title').text(jUser.last_name + ', ' + jUser.age);
+                $('.tinder-page .card-description').text(jUser.description);
                 $('.tinder-page .card-image img').attr('src', '/api/' + jUser.imageUrl);
                 $('.pages').hide();
                 $('.tinder-page').show();
                 return;
-                // appendBoxes('flex-container', aUsers)
             }
         }).catch(error => {
             console.log(error);
@@ -98,19 +99,26 @@ function routeGuard(page) {
     return false;
 }
 
-
-
 // add users to DOM
-function appendBoxes(elem, users) {
+function appendBoxes(elem, users, isMatchesPage = false) {
     // delete users
     $('.' + elem).empty();
-    console.log(users);
+
     // add new users
     for (let i = 0; i < users.length; i++) {
         jUser = users[i];
-        box = ' <div class="card"> <div class="image"> <img onerror="handleError(this)" src="./api' + jUser.imageUrl + '"></div> <div class="text"> <h1>' + jUser.first_name + ' ' + jUser.last_name + ', ' + jUser.age + '</h1> </div></div>'
+        box = ' <div class="card sticky-action"> <div class="image"> <img onerror="handleError(this)" src="./api' + jUser.imageUrl + '"></div> <div class="text activator"> <h1>' + jUser.first_name + ' ' + jUser.last_name + ', ' + jUser.age 
+        + '<i class="material-icons right">more_vert</i></h1></div>'
+        + '<div class="card-reveal"> <span class="card-title grey-text text-darken-4">' + jUser.first_name +'<i class="material-icons right">close</i></span>'
+        + '<p>' + jUser.description + '</p>';
+
+        if(isMatchesPage) {
+            box += '<p> Emal: ' + jUser.email + '</p>';  
+        } 
+        box += '</div>';
         $('.' + elem).append(box);
     }
+    
     const emptyBox = ""
     $('.' + elem).append('<div style="width:350px;margin-right:20px;"></div>');
     $('.' + elem).append('<div style="width:350px;margin-right:20px;"></div>');

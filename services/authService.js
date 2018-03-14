@@ -36,6 +36,12 @@ function apiPostForm(formData, sReqType) {
       return jData.id;
   }
 
+  function getUserInterest() {
+    if(!localStorage['USER_DATA']) return -1;
+    const jData = JSON.parse(localStorage['USER_DATA']);
+    return jData.interest;
+  }
+
 
 function onLogout() {
     if (!localStorage['USER_DATA']) return;

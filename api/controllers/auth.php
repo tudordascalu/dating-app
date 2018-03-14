@@ -103,7 +103,7 @@
             exit;
         }
         
-        if(!$sDescription) {
+        if(strlen($sDescription) < 10 || strlen($sDescription > 100)) {
             echo '{"status":"error","message":"please describe yourself"}';
             exit;
         }

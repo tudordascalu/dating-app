@@ -39,10 +39,10 @@
 
     function getNextUser($ajUsers, $jMatrix) {
         $sId = $_GET['id'];
-        
+        $iInterest = $_POST['interest'];
         foreach($ajUsers as $jUser) {
             $sUserId = $jUser->id;
-            if(!$jMatrix[$sId][$sUserId] && $sId != $sUserId) {
+            if(!$jMatrix[$sId][$sUserId] && $sId != $sUserId && $iInterest == $jUser->gender) {
                 $jData->id = $jUser->id;
                 $jData->first_name = $jUser->first_name;
                 $jData->last_name = $jUser->last_name;

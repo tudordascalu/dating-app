@@ -44,11 +44,13 @@ function apiGetUsers(sUserId) {
     });
   }
 
-  function apiGetUser(sUserId) {
+  function apiGetUser(sUserId, iInterest) {
     const sUrl = "/api/server.php?reqType=getUser&id=" + sUserId;
+    let formData = new FormData();
+    formData.append('interest', iInterest);
     return new Promise((resolve, reject) => {
       axios
-        .get(sUrl)
+        .post(sUrl)
         .then(response => {
           resolve(response.data);
         })
