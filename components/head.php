@@ -11,4 +11,4 @@
 <script src="./services/authService.js"></script>
 <script src="./services/userService.js"></script> 
 <script src="./assets/js/notification.js"></script>
-<script src="./assets/js/routing.js"></script>
+<script src="./assets/js/main.js"></script>
