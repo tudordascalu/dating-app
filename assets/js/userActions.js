@@ -66,6 +66,7 @@ function onAdminSave() {
   const iId = verifyAuth();
   apiAdminSaveUsers(iId, aUsers).then(data => {
     console.log(data, 'save admin');
+    Materialize.toast('Saved changes', 3000);
   }).catch(error => {
     console.log(error);
   })
