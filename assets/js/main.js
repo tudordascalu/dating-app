@@ -1,12 +1,11 @@
 $(document).ready(function () {
-    // $('.pages').hide();
     showPage('tinder-page');
-    $('select').material_select();
     $('.wrapper').css({'opacity': 1});
+    
+    // materialize init
+    $('select').material_select();
+    $('.modal').modal();
 })
-// setTimeout(()=> {
-//     $('.wrapper').css({'opacity': 1});
-// },500);
 
 function showPage(page) {
     if (page === 'login-page' || page === 'signup-page') {
@@ -119,11 +118,7 @@ function appendBoxes(elem, users, isMatchesPage = false) {
         } 
 
         if(jUser.latitude && jUser.longitude){
-            box += '<p>' + jUser.latitude + '</p>';
-        }
-        
-        if(jUser.latitude && jUser.longitude){
-            box += '<p>' + jUser.longitude + '</p>';
+            box += '<button class="location-button btn modal-trigger" onclick="seeLocation('+ jUser.latitude + ',' + jUser.longitude + ')">See Location</button>';
         }
 
         box += '</div>';

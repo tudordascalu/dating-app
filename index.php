@@ -5,6 +5,9 @@
 </head>
 
 <body>
+    <div class="modals">
+        <?php require_once('./components/modals.php');?>
+    </div>
     <div class="wrapper">
         <div class="navbar-container">
             <?php require_once('./components/navbar.php');?>
