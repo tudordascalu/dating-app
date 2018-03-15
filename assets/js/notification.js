@@ -13,7 +13,6 @@ setInterval(() => {
       notifyMe();
     }
   }).catch(error => {
-    // console.log("no new match");
   })
 }, 5000);
 function notifyMe() {

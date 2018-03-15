@@ -22,7 +22,6 @@ function showPage(page) {
     switch(page) {
         case 'users-page':
             apiGetUsers(sId).then(data => {
-                console.log(data);
                 if (!data.data) {
                     showPage('login-page');
                 } else {
@@ -30,13 +29,11 @@ function showPage(page) {
                     appendBoxes('flex-container', aUsers)
                 }
             }).catch(error => {
-                console.log(error);
             })
         break;
 
         case 'matches-page':
             apiGetMatches(sId).then(data => {
-                console.log(data);
                 if (data.status === 'forbidden') {
                     showPage('login-page');
                 } else if (data.status == 'error') {
@@ -49,15 +46,12 @@ function showPage(page) {
                     appendBoxes('flex-container', aMatches, true)
                 }
             }).catch(error => {
-                console.log(error);
             })
         break;
 
         case 'tinder-page':
             const iInterest = getUserInterest();
             apiGetUser(sId, iInterest).then(data => {
-                console.log(data, 'getUserData');
-                console.log(data.data, 'data.data');
                 if (data.status === 'forbidden') {
                     showPage('login-page');
                 } else if (data.status == 'error') {
@@ -78,13 +72,11 @@ function showPage(page) {
                     $('.tinder-page').show();
                 }
             }).catch(error => {
-                console.log(error);
             })
         break;
 
         case 'admin-page': 
             apiAdminGetUsers(sId).then(data => {
-                console.log(data, 'adminUsers');
 
                 if (data.status != 200) {
                     showPage('login-page');
@@ -97,7 +89,6 @@ function showPage(page) {
                 }
             }).catch(error => {
                 showPage('login-page');
-                console.log(error);
             })
         break;
 
@@ -123,7 +114,6 @@ function appendBoxes(elem, users, isMatchesPage = false) {
     // add new users
     for (let i = 0; i < users.length; i++) {
         jUser = users[i];
-        console.log(jUser, 'jUser');
         box = ' <div class="card sticky-action"> <div class="image"> <img onerror="handleError(this)" src="./api' + jUser.imageUrl + '"></div> <div class="text activator"> <h1>' + jUser.first_name + ' ' + jUser.last_name + ', ' + jUser.age 
         + '<i style="cursor:pointer" class="material-icons right">more_vert</i></h1></div>'
         + '<div class="card-reveal"> <span class="card-title grey-text text-darken-4">' + jUser.first_name +'<i class="material-icons right">close</i></span>'

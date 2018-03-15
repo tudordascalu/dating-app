@@ -4,7 +4,6 @@ $(".signup-form").on("submit", function (event) {
   sReqType = 'signup';
   apiPostForm(formData, sReqType)
   .then(data => {
-    console.log(data);
     if(!data.data) {
       Materialize.toast("Make sure you filled up the form!", 3000);
       return;
@@ -12,7 +11,6 @@ $(".signup-form").on("submit", function (event) {
     showPage("login-page");
   })
     .catch(error => {
-      console.log(error);
       Materialize.toast('Could not sign you up!', 3000);
     });;
 });
@@ -23,7 +21,6 @@ $(".login-form").on("submit", function (event) {
   sReqType = 'login';
   apiPostForm(formData, sReqType)
   .then(data => {
-    console.log(data);
     if(data.code == 403) {
       Materialize.toast("Please verify your account", 3000);
       return;
@@ -50,14 +47,10 @@ $(".login-form").on("submit", function (event) {
 
 function onLike(response) {
   const id = verifyAuth();
-  console.log(id,'user id');
   const sLikeId = JSON.parse(localStorage['TINDER_USER_DATA']).id;
-  console.log(sLikeId, 'tinderId');
   apiLike(id, sLikeId, response ).then(data => {
-    console.log(data, 'tinder data')
     showPage('tinder-page');
   }).catch(error => {
-    console.log(error);
   })
 }
 
@@ -65,10 +58,8 @@ function onAdminSave() {
   let aUsers = JSON.parse(localStorage.getItem('USERS'));
   const iId = verifyAuth();
   apiAdminSaveUsers(iId, aUsers).then(data => {
-    console.log(data, 'save admin');
     Materialize.toast('Saved changes', 3000);
   }).catch(error => {
-    console.log(error);
   })
 }
 
@@ -76,11 +67,9 @@ function onLogout() {
   localStorage.removeItem('USER_DATA');
   const id = verifyAuth();
   apiLogout(id).then(data => {
-    console.log(data);
     showPage('login-page');
     $('.navbar-container').hide();
   }).catch(error => {
-    console.log(error);
     showPage('login-page');
     $('.navbar-container').hide();
   })
@@ -88,7 +77,6 @@ function onLogout() {
 
 function onDeleteUser(iId) {
   let aUsers = JSON.parse(localStorage.getItem('USERS'));
-  console.log(aUsers);
   let iIndex = -1;
   for(i = 0; i < aUsers.length; i++) {
     if(aUsers[i].id == iId) {
@@ -113,9 +101,7 @@ function getLocation() {
 function saveNewPosition(position) {
   const id = verifyAuth();
   apiSaveLocation(id, position.coords.latitude, position.coords.longitude).then(data => {
-    console.log(data, 'saved new location')
   }).catch(error => {
-    console.log(error, 'saved new location');
   })
   
 }
