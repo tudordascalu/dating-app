@@ -12,6 +12,10 @@
         <div class="navbar-container">
             <?php require_once('./components/navbar.php');?>
         </div>
+
+        <div style="display: none" class="navbar-admin">
+            <?php require_once('./components/navbar-admin.php');?>
+        </div>
         
         <div style="display: none" class="pages signup-page">
             <?php require_once('./components/signup.php');?>
@@ -19,6 +23,10 @@
 
         <div class="pages users-page">
             <?php require_once('./components/users.php');?>
+        </div>
+
+        <div class="pages admin-page">
+            <?php require_once('./components/admin.php');?>
         </div>
         
         <div class="pages matches-page">

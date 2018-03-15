@@ -32,9 +32,14 @@ $(".login-form").on("submit", function (event) {
       Materialize.toast("Username or password is incorrect", 3000);
       return;
     }
-    getLocation();
+    
     localStorage.setItem('USER_DATA', JSON.stringify(data.data))
-    // Materialize.toast("Successful login", 3000);
+    
+    if(data.status == 201) {
+      showPage('admin-page');
+      return;
+    }
+    getLocation();
     showPage('tinder-page');
     $('.navbar-container').show();
   })

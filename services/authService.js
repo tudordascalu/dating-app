@@ -36,6 +36,13 @@ function apiPostForm(formData, sReqType) {
       return jData.id;
   }
 
+  function verifyAdmin() {
+    if(!localStorage['USER_DATA']) return false;
+    const jData = JSON.parse(localStorage['USER_DATA']);
+    if(jData.role == 'admin') return true;
+    return false;
+}
+
   function getUserInterest() {
     if(!localStorage['USER_DATA']) return -1;
     const jData = JSON.parse(localStorage['USER_DATA']);

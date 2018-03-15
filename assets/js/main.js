@@ -1,5 +1,9 @@
 $(document).ready(function () {
-    showPage('tinder-page');
+    if(verifyAdmin()) {
+        showPage('admin-page');
+    } else {
+        showPage('tinder-page');
+    }
     $('.wrapper').css({'opacity': 1});
     
     // materialize init
@@ -8,89 +12,81 @@ $(document).ready(function () {
 })
 
 function showPage(page) {
-    if (page === 'login-page' || page === 'signup-page') {
-        $('.navbar-container').hide();
-    } else {
-        $('.navbar-container').show();
-    }
+    showNavbar(page);
 
     if (!routeGuard(page)) {
         showPage('login-page');
         return;
     }
+    const sId = verifyAuth();
+    switch(page) {
+        case 'users-page':
+            apiGetUsers(sId).then(data => {
+                console.log(data);
+                if (!data.data) {
+                    showPage('login-page');
+                } else {
+                    const aUsers = data.data;
+                    appendBoxes('flex-container', aUsers)
+                }
+            }).catch(error => {
+                console.log(error);
+            })
+        break;
 
-    if (page == 'users-page') {
-        const sId = verifyAuth();
-        apiGetUsers(sId).then(data => {
-            console.log(data);
-            if (!data.data) {
-                showPage('login-page');
-            } else {
-                const aUsers = data.data;
-                appendBoxes('flex-container', aUsers)
-            }
-        }).catch(error => {
-            console.log(error);
-        })
-        return;
+        case 'matches-page':
+            apiGetMatches(sId).then(data => {
+                console.log(data);
+                if (data.status === 'forbidden') {
+                    showPage('login-page');
+                } else if (data.status == 'error') {
+                    $('.card').hide();
+                    $('.error-message').show();
+                    $('.pages').hide();
+                    $('.matches-page').show();
+                } else {
+                    const aMatches = data.data;
+                    appendBoxes('flex-container', aMatches, true)
+                }
+            }).catch(error => {
+                console.log(error);
+            })
+        break;
+
+        case 'tinder-page':
+            const iInterest = getUserInterest();
+            apiGetUser(sId, iInterest).then(data => {
+                console.log(data, 'getUserData');
+                console.log(data.data, 'data.data');
+                if (data.status === 'forbidden') {
+                    showPage('login-page');
+                } else if (data.status == 'error') {
+                    $('.card').hide();
+                    $('.error-message').show();
+                    $('.pages').hide();
+                    $('.tinder-page').show();
+                }
+                else {
+                    $('.card').show();
+                    $('.error-message').hide();
+                    const jUser = data.data;
+                    localStorage['TINDER_USER_DATA'] = JSON.stringify(jUser);
+                    $('.tinder-page .card-title').text(jUser.last_name + ', ' + jUser.age);
+                    $('.tinder-page .card-description').text(jUser.description);
+                    $('.tinder-page .card-image img').attr('src', '/api/' + jUser.imageUrl);
+                    $('.pages').hide();
+                    $('.tinder-page').show();
+                }
+            }).catch(error => {
+                console.log(error);
+            })
+        break;
+
+        default:
+            $('.pages').hide();
+            $('.' + page).show(); 
+        break;
     }
-
-    if (page == 'matches-page') {
-        const sId = verifyAuth();
-        apiGetMatches(sId).then(data => {
-            console.log(data);
-            if (data.status === 'forbidden') {
-                showPage('login-page');
-            } else if (data.status == 'error') {
-                $('.card').hide();
-                $('.error-message').show();
-                $('.pages').hide();
-                $('.matches-page').show();
-            } else {
-                const aMatches = data.data;
-                appendBoxes('flex-container', aMatches, true)
-            }
-        }).catch(error => {
-            console.log(error);
-        })
-        return;
-    }
-
-    if (page == 'tinder-page') {
-        const sId = verifyAuth();
-        const iInterest = getUserInterest();
-        apiGetUser(sId, iInterest).then(data => {
-            console.log(data, 'getUserData');
-            console.log(data.data, 'data.data');
-            if (data.status === 'forbidden') {
-                showPage('login-page');
-            } else if (data.status == 'error') {
-                $('.card').hide();
-                $('.error-message').show();
-                $('.pages').hide();
-                $('.tinder-page').show();
-                return;
-            }
-            else {
-                $('.card').show();
-                $('.error-message').hide();
-                const jUser = data.data;
-                localStorage['TINDER_USER_DATA'] = JSON.stringify(jUser);
-                $('.tinder-page .card-title').text(jUser.last_name + ', ' + jUser.age);
-                $('.tinder-page .card-description').text(jUser.description);
-                $('.tinder-page .card-image img').attr('src', '/api/' + jUser.imageUrl);
-                $('.pages').hide();
-                $('.tinder-page').show();
-                return;
-            }
-        }).catch(error => {
-            console.log(error);
-        })
-        return;
-    }
-
-    $('.pages').hide();
-    $('.' + page).show();
 }
 // check if user can see page
 function routeGuard(page) {
@@ -137,4 +133,17 @@ function appendBoxes(elem, users, isMatchesPage = false) {
 function handleError(elem) {
     $(elem).attr('src', './assets/images/user-icon.png');
     addError('#imageField');
+}
+
+function showNavbar(page) {
+    if (page === 'login-page' || page === 'signup-page') {
+        $('.navbar-container').hide();
+        $('.navbar-admin').hide();
+    } else {
+        if(page === 'admin-page') {
+            $('.navbar-admin').show();
+        } else {
+            $('.navbar-container').show();
+        }
+    }
 }
