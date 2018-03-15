@@ -6,7 +6,8 @@
 
     function adminSaveUsers($ajUsers) {
         verifyAdmin($ajUsers);
-        $aNewUsers = $_POST['users_updated'];
-        $ajUsers = $aNewUsers;
+        $saNewUsers = $_POST['users'];
+        echo json_encode($aNewUsers);
+        $ajUsers = json_decode($saNewUsers);
         saveToStorage($ajUsers, './storage/users.txt');
     }

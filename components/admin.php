@@ -1,29 +1,18 @@
 <div class="container">
-<table>
+    <div style="height:400px">
+<table style="max-height:100%"class="highlight">
     <thead>
     <tr>
         <th>First Name</th>
-        <th>Item Name</th>
-        <th>Item Price</th>
+        <th>Last Name</th>
+        <th></th>
     </tr>
     </thead>
 
-    <tbody>
-    <tr>
-        <td>Last Name</td>
-        <td>Eclair</td>
-        <td>$0.87</td>
-    </tr>
-    <tr>
-        <td>Alan</td>
-        <td>Jellybean</td>
-        <td>$3.76</td>
-    </tr>
-    <tr>
-        <td>Jonathan</td>
-        <td>Lollipop</td>
-        <td>$7.00</td>
-    </tr>
+    <tbody class="table-body">
+
     </tbody>
 </table>
+</div>
+<button onclick="onAdminSave()" style="float:right" class="btn">Save changes</button>
 </div>

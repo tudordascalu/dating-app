@@ -82,6 +82,25 @@ function showPage(page) {
             })
         break;
 
+        case 'admin-page': 
+            apiAdminGetUsers(sId).then(data => {
+                console.log(data, 'adminUsers');
+
+                if (data.status != 200) {
+                    showPage('login-page');
+                } 
+                else {
+                    let ajUsers = data.data;  
+                    initializeTable(ajUsers);   
+                    $('.pages').hide();
+                    $('.' + page).show(); 
+                }
+            }).catch(error => {
+                showPage('login-page');
+                console.log(error);
+            })
+        break;
+
         default:
             $('.pages').hide();
             $('.' + page).show(); 
@@ -146,4 +165,26 @@ function showNavbar(page) {
             $('.navbar-container').show();
         }
     }
+}
+
+function initializeTable(ajUsers) {
+    $('.table-body').empty();
+    ajUsers.forEach(function(jUser) {
+        let domElement = `
+            <tr>
+                <td>${jUser.first_name}</td>
+                <td>${jUser.last_name}</td>
+                <td>
+                    <button class="no-style">
+                        <i style="cursor:pointer;margin-right:10px" class="material-icons">edit</i>
+                    </button>
+                    <button onclick="onDeleteUser('${jUser.id}')" class="no-style">
+                        <i style="cursor:pointer; color:lightcoral" class="material-icons">delete</i>
+                    </butto>
+                </td>
+            </tr>
+        `;
+        $('.table-body').append(domElement);
+    });
+      
 }

@@ -61,6 +61,16 @@ function onLike(response) {
   })
 }
 
+function onAdminSave() {
+  let aUsers = JSON.parse(localStorage.getItem('USERS'));
+  const iId = verifyAuth();
+  apiAdminSaveUsers(iId, aUsers).then(data => {
+    console.log(data, 'save admin');
+  }).catch(error => {
+    console.log(error);
+  })
+}
+
 function onLogout() {
   localStorage.removeItem('USER_DATA');
   const id = verifyAuth();
@@ -73,7 +83,22 @@ function onLogout() {
     showPage('login-page');
     $('.navbar-container').hide();
   })
+}
 
+function onDeleteUser(iId) {
+  let aUsers = JSON.parse(localStorage.getItem('USERS'));
+  console.log(aUsers);
+  let iIndex = -1;
+  for(i = 0; i < aUsers.length; i++) {
+    if(aUsers[i].id == iId) {
+      iIndex = i;
+    }
+  }
+  if(iIndex > -1) {
+    aUsers.splice(iIndex, 1);
+    localStorage.setItem('USERS', JSON.stringify(aUsers));
+    initializeTable(aUsers);
+  }
 }
 
 function getLocation() {

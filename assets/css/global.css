@@ -148,28 +148,6 @@ header {
     justify-content: center;
     align-items: center;
 }
-/* 
-ul {
-    display: flex;
-    list-style: none;
-}
-
-li {
-    margin-right: 50px;
-    font-size: 1.3em;
-    border-bottom: 1px solid #fff;
-    transition: .3s;
-    cursor: pointer;
-}
-
-li:hover {
-    border-bottom: 1px solid #474e5d;
-}
-
-li.selected {
-    border-bottom: 1px solid #474e5d
-} */
-
 
 /* TINDER PAGE */
 .tinder-page .card {
@@ -213,9 +191,24 @@ li.selected {
 }
 
 
-/* matches page */
+/* Matches page */
 .location-button {
     position: absolute;
     bottom: 30px;
     right: 30px;
+}
+
+/* Admin page */
+.no-style {
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+}
+
+.no-style:visited {
+    background-color: transparent;
+}
+
+.no-style:focus {
+    background-color: transparent;
 }
