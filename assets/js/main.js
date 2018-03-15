@@ -2,10 +2,13 @@ $(document).ready(function () {
     // $('.pages').hide();
     showPage('tinder-page');
     $('select').material_select();
+    $('.wrapper').css({'opacity': 1});
 })
+// setTimeout(()=> {
+//     $('.wrapper').css({'opacity': 1});
+// },500);
 
 function showPage(page) {
-    console.log(page);
     if (page === 'login-page' || page === 'signup-page') {
         $('.navbar-container').hide();
     } else {
@@ -108,7 +111,7 @@ function appendBoxes(elem, users, isMatchesPage = false) {
     for (let i = 0; i < users.length; i++) {
         jUser = users[i];
         box = ' <div class="card sticky-action"> <div class="image"> <img onerror="handleError(this)" src="./api' + jUser.imageUrl + '"></div> <div class="text activator"> <h1>' + jUser.first_name + ' ' + jUser.last_name + ', ' + jUser.age 
-        + '<i class="material-icons right">more_vert</i></h1></div>'
+        + '<i style="cursor:pointer" class="material-icons right">more_vert</i></h1></div>'
         + '<div class="card-reveal"> <span class="card-title grey-text text-darken-4">' + jUser.first_name +'<i class="material-icons right">close</i></span>'
         + '<p>' + jUser.description + '</p>';
 

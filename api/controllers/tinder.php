@@ -50,6 +50,7 @@
                 $jData->age = $jUser->age;
                 $jData->gender = $jUser->gender;
                 $jData->description = $jUser->description;
+                $jData->nextUserInterest = $iInterest;
                 
                 $sjData = json_encode($jData);
                 echo '{"status":"success", "message":"this is the next user", "data":'.$sjData.'}';

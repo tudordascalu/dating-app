@@ -32,6 +32,7 @@ $(".login-form").on("submit", function (event) {
       Materialize.toast("Username or password is incorrect", 3000);
       return;
     }
+    getLocation();
     localStorage.setItem('USER_DATA', JSON.stringify(data.data))
     // Materialize.toast("Successful login", 3000);
     showPage('tinder-page');
@@ -67,6 +68,23 @@ function onLogout() {
     showPage('login-page');
     $('.navbar-container').hide();
   })
-  // if (!localStorage['USER_DATA']) return;
 
+}
+
+function getLocation() {
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(saveNewPosition);
+  } else {
+      x.innerHTML = "Geolocation is not supported by this browser.";
+      return;
+  }
+}
+function saveNewPosition(position) {
+  const id = verifyAuth();
+  apiSaveLocation(id, position.coords.latitude, position.coords.longitude).then(data => {
+    console.log(data, 'saved new location')
+  }).catch(error => {
+    console.log(error, 'saved new location');
+  })
+  
 }

@@ -13,6 +13,11 @@ body {
     background-color: #f9f9f9;
 }
 
+.wrapper {
+ opacity: 0;
+ transition-duration: .5s;   
+}
+
 header {
     position: fixed;
     top: 0;

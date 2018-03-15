@@ -1,6 +1,14 @@
 <?php
+
+// helpers
+include './helpers/response.php';
+include './helpers/authHelper.php';
+include './helpers/storage.php';
+
+// controllers
 include './controllers/auth.php';
 include './controllers/tinder.php';
+include './controllers/location.php';
 
 $sRequestType = $_GET['reqType'];
 
@@ -45,5 +53,9 @@ switch($sRequestType) {
     
     case 'newMatch':
         checkNewMatch($jMatrix);
+    break;
+
+    case 'saveLocation':
+        saveNewLocation($ajUsers);
     break;
 }

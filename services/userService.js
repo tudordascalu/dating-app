@@ -50,7 +50,25 @@ function apiGetUsers(sUserId) {
     formData.append('interest', iInterest);
     return new Promise((resolve, reject) => {
       axios
-        .post(sUrl)
+        .post(sUrl, formData)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          // clearUserProfile();
+          reject({ "message": "user is not logged in" });
+        });
+    });
+  }
+
+  function apiSaveLocation(sUserId, sLat, sLong) {
+    const sUrl = "/api/server.php?reqType=saveLocation&id=" + sUserId;
+    let formData = new FormData();
+    formData.append('longitude', sLong);
+    formData.append('latitude', sLat);
+    return new Promise((resolve, reject) => {
+      axios
+        .post(sUrl, formData)
         .then(response => {
           resolve(response.data);
         })
