@@ -1,5 +1,4 @@
 <?php
-    session_start();
     
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
@@ -18,6 +17,9 @@
                 if($jUser->verified != 1) {
                     echo '{"status":"error","code":"403", "message":"please verify your account"}';
                     exit;
+                }
+                if($jUser->role === "admin") {
+                    sendResponse(201, 'admin logged in', $jUser);
                 }
                 $sjUser = json_encode($jUser);
                 $_SESSION[$jUser->id] = "logged in";

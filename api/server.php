@@ -1,5 +1,5 @@
 <?php
-
+    session_start();
 // helpers
 include './helpers/response.php';
 include './helpers/authHelper.php';
@@ -9,6 +9,7 @@ include './helpers/storage.php';
 include './controllers/auth.php';
 include './controllers/tinder.php';
 include './controllers/location.php';
+include './controllers/admin.php';
 
 $sRequestType = $_GET['reqType'];
 
@@ -38,7 +39,6 @@ switch($sRequestType) {
     break;
     
     case 'like': 
-        // verifyLogin();
         onLike($ajUsers, $jMatrix);
     break;
 
@@ -57,5 +57,13 @@ switch($sRequestType) {
 
     case 'saveLocation':
         saveNewLocation($ajUsers);
+    break;
+
+    case 'adminGetUsers': 
+        adminGetUsers($ajUsers);
+    break;
+
+    case 'adminSaveUsers': 
+        adminSaveUsers($ajUsers);
     break;
 }

@@ -55,7 +55,6 @@ function apiGetUsers(sUserId) {
           resolve(response.data);
         })
         .catch(error => {
-          // clearUserProfile();
           reject({ "message": "user is not logged in" });
         });
     });
@@ -73,7 +72,6 @@ function apiGetUsers(sUserId) {
           resolve(response.data);
         })
         .catch(error => {
-          // clearUserProfile();
           reject({ "message": "user is not logged in" });
         });
     });
