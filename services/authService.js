@@ -18,7 +18,7 @@ function apiPostForm(formData, sReqType) {
     const sUrl = "/api/server.php?reqType=logout&id=" + sId;
     return new Promise((resolve, reject) => {
       axios
-        .post(sUrl, formData)
+        .get(sUrl)
         .then(response => {
           clearUserProfile();
           resolve(response.data);
@@ -48,3 +48,7 @@ function onLogout() {
     
     localStorage.removeItem('USER_DATA');
   }
+
+function clearUserProfile() {
+  localStorage.removeItem('USER_DATA');
+}

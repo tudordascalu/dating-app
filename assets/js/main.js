@@ -106,18 +106,26 @@ function routeGuard(page) {
 function appendBoxes(elem, users, isMatchesPage = false) {
     // delete users
     $('.' + elem).empty();
-
     // add new users
     for (let i = 0; i < users.length; i++) {
         jUser = users[i];
+        console.log(jUser, 'jUser');
         box = ' <div class="card sticky-action"> <div class="image"> <img onerror="handleError(this)" src="./api' + jUser.imageUrl + '"></div> <div class="text activator"> <h1>' + jUser.first_name + ' ' + jUser.last_name + ', ' + jUser.age 
         + '<i style="cursor:pointer" class="material-icons right">more_vert</i></h1></div>'
         + '<div class="card-reveal"> <span class="card-title grey-text text-darken-4">' + jUser.first_name +'<i class="material-icons right">close</i></span>'
         + '<p>' + jUser.description + '</p>';
-
         if(isMatchesPage) {
             box += '<p> Emal: ' + jUser.email + '</p>';  
         } 
+
+        if(jUser.latitude && jUser.longitude){
+            box += '<p>' + jUser.latitude + '</p>';
+        }
+        
+        if(jUser.latitude && jUser.longitude){
+            box += '<p>' + jUser.longitude + '</p>';
+        }
+
         box += '</div>';
         $('.' + elem).append(box);
     }
