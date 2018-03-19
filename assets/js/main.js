@@ -52,10 +52,19 @@ function showPage(page) {
         case 'tinder-page':
             const iInterest = getUserInterest();
             apiGetUser(sId, iInterest).then(data => {
+                console.log(data, 'error');
                 if (data.status === 'forbidden') {
                     showPage('login-page');
-                } else if (data.status == 'error') {
+                }  else if (data.status == 405) {
                     $('.card').hide();
+                    $('.error-message').text('Come back tomorrow or update to VIP for more swipes');
+                    $('.error-message').show();
+                    $('.pages').hide();
+                    $('.tinder-page').show();
+                } else if (data.status == 'error') {
+                    // console.log(data, 'error');
+                    $('.card').hide();
+                    $('.error-message').text('No more users');
                     $('.error-message').show();
                     $('.pages').hide();
                     $('.tinder-page').show();
@@ -162,12 +171,19 @@ function initializeTable(ajUsers) {
     ajUsers.forEach(function(jUser) {
         let domElement = `
             <tr>
-                <td>${jUser.first_name}</td>
-                <td>${jUser.last_name}</td>
                 <td>
-                    <button class="no-style">
-                        <i style="cursor:pointer;margin-right:10px" class="material-icons">edit</i>
-                    </button>
+                    ${jUser.first_name}
+                </td>
+                <td>
+                    ${jUser.last_name}
+                </td>
+                <td>
+                    <select onchange="onUpdateRole(this, '${jUser.id}')">
+                        <option value="normal" ${jUser.role != 'vip' ? 'selected' : ''}>Regular</option>
+                        <option value="vip" ${jUser.role == 'vip' ? 'selected' : ''}>VIP</option>
+                    </select>
+                </td>
+                <td style="text-align: center">
                     <button onclick="onDeleteUser('${jUser.id}')" class="no-style">
                         <i style="cursor:pointer; color:lightcoral" class="material-icons">delete</i>
                     </butto>
@@ -176,5 +192,6 @@ function initializeTable(ajUsers) {
         `;
         $('.table-body').append(domElement);
     });
+    $('select').material_select();
       
 }

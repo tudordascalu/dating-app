@@ -4,6 +4,7 @@
 include './helpers/response.php';
 include './helpers/authHelper.php';
 include './helpers/storage.php';
+include './helpers/tinderHelper.php';
 
 // controllers
 include './controllers/auth.php';

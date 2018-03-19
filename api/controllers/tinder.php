@@ -34,15 +34,18 @@
        
        $sjMatrix = json_encode($jMatrix);
        file_put_contents('./storage/matches.txt', $sjMatrix);
+       increaseSwapCount($sId, $ajUsers);
        echo '{"status":"success", "message":"like registered", "data":'.$sjMatrix.'}';
     }
 
     function getNextUser($ajUsers, $jMatrix) {
         $sId = $_GET['id'];
         $iInterest = $_POST['interest'];
+        
         foreach($ajUsers as $jUser) {
             $sUserId = $jUser->id;
             if(!$jMatrix[$sId][$sUserId] && $sId != $sUserId && $iInterest == $jUser->gender) {
+                checkSwapCount($sId, $ajUsers);
                 $jData->id = $jUser->id;
                 $jData->first_name = $jUser->first_name;
                 $jData->last_name = $jUser->last_name;

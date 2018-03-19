@@ -90,6 +90,17 @@ function onDeleteUser(iId) {
   }
 }
 
+function onUpdateRole(event, iId) {
+  sRole = event.value;
+  let aUsers = JSON.parse(localStorage.getItem('USERS'));
+  for(i = 0; i < aUsers.length; i++) {
+    if(aUsers[i].id == iId) {
+      aUsers[i].role = sRole;
+    }
+  }
+  localStorage.setItem('USERS', JSON.stringify(aUsers));
+}
+
 function getLocation() {
   if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(saveNewPosition);
