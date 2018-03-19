@@ -46,6 +46,8 @@ $(".login-form").on("submit", function (event) {
 });
 
 function onLike(response) {
+  var mySong = new Audio('./assets/sounds/tick.mp3');
+  mySong.play();
   const id = verifyAuth();
   const sLikeId = JSON.parse(localStorage['TINDER_USER_DATA']).id;
   apiLike(id, sLikeId, response ).then(data => {
