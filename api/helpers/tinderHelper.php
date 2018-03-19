@@ -4,6 +4,9 @@
             $dCurrentDate = date("Y/m/d");
             $sUserId = $jU->id;
             if($sUserId == $sId) {
+                if($jU->role == 'vip') {
+                    return;
+                }
                 if(empty($jU->swipe_date) || $jU->swipe_date != $dCurrentDate) {
                     $jU->swipe_date = $dCurrentDate;
                     $jU->swipe_count = 0;
