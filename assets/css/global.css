@@ -2,6 +2,9 @@
     font-family: 'Trade Gothic Condensed';
     src: url("https://s3.eu-central-1.amazonaws.com/sitecampaign/fonts/TRADEGOC.TTF");
 }
+.pages {
+    display: none;
+}
 a {
     cursor: pointer!important;
 }
@@ -11,11 +14,6 @@ body {
     font-family: 'Trade Gothic Condensed';
     color: #474e5d;
     background-color: #f9f9f9;
-}
-
-.wrapper {
- opacity: 0;
- transition-duration: .5s;   
 }
 
 header {
@@ -31,7 +29,6 @@ header {
 
 .users-page {
     display: none;
-    /* position: relative; */
 }
 .signup-page, .login-page {
     height: 100%;
@@ -105,7 +102,6 @@ header {
 
 .users-page .input-group {
     display: flex;
-    /* flex-direction: column; */
     align-items: center;
     justify-content: center;
 }
@@ -143,7 +139,6 @@ header {
     position: absolute;
     top: 15px;
     right: 15px;
-    /* border: 2px solid #fff; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -151,14 +146,8 @@ header {
 
 /* TINDER PAGE */
 .tinder-page .card {
-    /* align card center */
     margin: auto;
     margin-top: 100px;
-    /* position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0; */
 }
 
 .tinder-page .card-image {
@@ -186,7 +175,6 @@ header {
     .tinder-page .card {
         height: 500px;
         width: 440px;
-        /* display: none; */
     }
 }
 

@@ -4,7 +4,6 @@ $(document).ready(function () {
     } else {
         showPage('tinder-page');
     }
-    $('.wrapper').css({'opacity': 1});
     
     // materialize init
     $('select').material_select();
@@ -38,9 +37,10 @@ function showPage(page) {
                     showPage('login-page');
                 } else if (data.status == 'error') {
                     $('.card').hide();
+                    $('.error-message').text('You have no matches, keep swiping');
                     $('.error-message').show();
                     $('.pages').hide();
-                    $('.matches-page').show();
+                    $('.matches-page').fadeIn(500);
                 } else {
                     const aMatches = data.data;
                     appendBoxes('flex-container', aMatches, true)
@@ -60,14 +60,13 @@ function showPage(page) {
                     $('.error-message').text('Come back tomorrow or update to VIP for more swipes');
                     $('.error-message').show();
                     $('.pages').hide();
-                    $('.tinder-page').show();
+                    $('.tinder-page').fadeIn(500);
                 } else if (data.status == 'error') {
-                    // console.log(data, 'error');
                     $('.card').hide();
-                    $('.error-message').text('No more users');
+                    $('.error-message').text('No more users, stay put');
                     $('.error-message').show();
                     $('.pages').hide();
-                    $('.tinder-page').show();
+                    $('.tinder-page').fadeIn(500);
                 }
                 else {
                     $('.card').show();
@@ -78,7 +77,7 @@ function showPage(page) {
                     $('.tinder-page .card-description').text(jUser.description);
                     $('.tinder-page .card-image img').attr('src', '/api/' + jUser.imageUrl);
                     $('.pages').hide();
-                    $('.tinder-page').show();
+                    $('.tinder-page').fadeIn(500);
                 }
             }).catch(error => {
             })
@@ -94,7 +93,7 @@ function showPage(page) {
                     let ajUsers = data.data;  
                     initializeTable(ajUsers);   
                     $('.pages').hide();
-                    $('.' + page).show(); 
+                    $('.' + page).fadeIn(500);
                 }
             }).catch(error => {
                 showPage('login-page');
@@ -103,7 +102,7 @@ function showPage(page) {
 
         default:
             $('.pages').hide();
-            $('.' + page).show(); 
+            $('.' + page).fadeIn(500); 
         break;
     }
 }
@@ -145,7 +144,7 @@ function appendBoxes(elem, users, isMatchesPage = false) {
     $('.' + elem).append('<div style="width:350px;margin-right:20px;"></div>');
 
     $('.pages').hide();
-    $('.users-page').show();
+    $('.users-page').fadeIn(500);
 }
 
 function handleError(elem) {
