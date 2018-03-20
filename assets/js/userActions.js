@@ -8,6 +8,7 @@ $(".signup-form").on("submit", function (event) {
       Materialize.toast("Make sure you filled up the form!", 3000);
       return;
     }
+    $(this).reset();
     showPage("login-page");
   })
     .catch(error => {

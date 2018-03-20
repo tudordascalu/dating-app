@@ -65,55 +65,45 @@
         }
 
         if(!$sFirstName || !$sLastName || !$iAge || !$sEmail || !$sPassword || !$aImage['tmp_name']) {
-            echo '{"status":"error","message":"make sure you fill up all the required fields"}';
-            exit;
+            sendResponse(400, "make sure you fill up all the required fields", null);
         }
   
         if(strlen($sFirstName) > 25 || strlen($sFirstName) < 2) {
-            echo '{"status":"error","message":"first name length is not correct"}';
-            exit;
+            sendResponse(400, "first name length is not correct", null);
         }
 
         if(strlen($sLastName) > 25 || strlen($sLastName) < 2) {
-            echo '{"status":"error","message":"last name length is not correct"}';
-            exit;
+            sendResponse(400, "last name length is not correct", null);
         }
 
         if(!filter_var($iAge, FILTER_VALIDATE_INT) || $iAge < 18 || $iAge > 100) {
-            echo '{"status":"error","message":"age is not appropriate"}';
-            exit;
+            sendResponse(400, "age is not appropriate", null);
         }
        
-        if(strlen($sEmail) > 30 || strlen($sEmail) < 2) {
-            echo '{"status":"error","message":"email length is not correct"}';
-            exit;
+        if(!filter_var($sEmail, FILTER_VALIDATE_EMAIL)) {
+            sendResponse(400, "email length is not correct", null);
         }
 
         if(strlen($sPassword) > 40 || strlen($sPassword) < 2) {
-            echo '{"status":"error","message":"password too short"}';
-            exit;
+            sendResponse(400, "password too short", null);
         }
 
         if(!isset($aImage)) {
-            echo '{"status":"error","message":"please upload an image"}';
-            exit;
+            sendResponse(400, "please upload an image", null);
         }
 
         if($iGender != 0 && $iGender != 1 ) {
             echo $iGender;
-            echo '{"status":"error","message":"please specify gender"}';
-            exit;
+            sendResponse(400, "please specify gender", null);
         }        
 
         if($iInterest != 0 && $iInterest !=1) {
             echo $iInterest;
-            echo '{"status":"error","message":"please specify interest"}';
-            exit;
+            sendResponse(400, "please specify interest", null);
         }
         
         if(strlen($sDescription) < 10 || strlen($sDescription > 100)) {
-            echo '{"status":"error","message":"please describe yourself"}';
-            exit;
+            sendResponse(400, "please describe yourself", null);
         }
         // create new user
         $jUser->id = uniqid();
@@ -129,7 +119,6 @@
         $jUser->verified = 0;
         $jUser->activation_key = uniqid();
 
-        $sjUser = json_encode($jUser);
         // add user to array
         array_push($ajUsers, $jUser);
         
@@ -139,8 +128,7 @@
 
         // save image to file
         sendVerificationEmail($jUser->email, $jUser->activation_key);
-        echo '{"status":"success", "message":"user signed up", "data":'.$sjUser.'}';
-        exit;
+        sendResponse(200, "user signed up", $jUser);
     }
 
 
