@@ -1,5 +1,5 @@
 <div class="container">
-    <div style="height:400px">
+    <div style="height:400px; overflow:scroll; margin-bottom:20px">
 <table style="max-height:100%"class="highlight">
     <thead>
     <tr>
