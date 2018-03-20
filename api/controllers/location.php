@@ -1,6 +1,6 @@
 <?php
     function saveNewLocation($ajUsers) {
-        $sId = verifyLogin();
+        $sId = $_GET['id'];
         $sLat = $_POST['latitude'];
         $sLong = $_POST['longitude'];
         if(!$sLat || !$sLong) {

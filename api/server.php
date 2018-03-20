@@ -1,16 +1,16 @@
 <?php
     session_start();
 // helpers
-include './helpers/response.php';
-include './helpers/authHelper.php';
-include './helpers/storage.php';
-include './helpers/tinderHelper.php';
+include_once './helpers/response.php';
+include_once './helpers/authHelper.php';
+include_once './helpers/storage.php';
+include_once './helpers/tinderHelper.php';
 
 // controllers
-include './controllers/auth.php';
-include './controllers/tinder.php';
-include './controllers/location.php';
-include './controllers/admin.php';
+include_once './controllers/auth.php';
+include_once './controllers/tinder.php';
+include_once './controllers/location.php';
+include_once './controllers/admin.php';
 
 $sRequestType = $_GET['reqType'];
 
@@ -23,7 +23,7 @@ $jMatrix = json_decode($sjMatrix, '{}');
 
 switch($sRequestType) {
     case 'getUsers': 
-         verifyLogin();  
+        verifyLogin();  
         getUsers($sajUsers);
     break;
 
@@ -57,6 +57,7 @@ switch($sRequestType) {
     break;
 
     case 'saveLocation':
+        verifyLogin();
         saveNewLocation($ajUsers);
     break;
 
