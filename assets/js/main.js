@@ -1,10 +1,10 @@
 $(document).ready(function () {
-    if(verifyAdmin()) {
+    if (verifyAdmin()) {
         showPage('admin-page');
     } else {
         showPage('tinder-page');
     }
-    
+
     // materialize init
     $('select').material_select();
     $('.modal').modal();
@@ -18,7 +18,7 @@ function showPage(page) {
         return;
     }
     const sId = verifyAuth();
-    switch(page) {
+    switch (page) {
         case 'users-page':
             apiGetUsers(sId).then(data => {
                 if (!data.data) {
@@ -29,7 +29,7 @@ function showPage(page) {
                 }
             }).catch(error => {
             })
-        break;
+            break;
 
         case 'matches-page':
             apiGetMatches(sId).then(data => {
@@ -47,15 +47,14 @@ function showPage(page) {
                 }
             }).catch(error => {
             })
-        break;
+            break;
 
         case 'tinder-page':
             const iInterest = getUserInterest();
             apiGetUser(sId, iInterest).then(data => {
-                console.log(data, 'error');
                 if (data.status === 'forbidden') {
                     showPage('login-page');
-                }  else if (data.status == 405) {
+                } else if (data.status == 405) {
                     $('.card').hide();
                     $('.error-message').text('Come back tomorrow or update to VIP for more swipes');
                     $('.error-message').show();
@@ -81,29 +80,35 @@ function showPage(page) {
                 }
             }).catch(error => {
             })
-        break;
+            break;
 
-        case 'admin-page': 
+        case 'admin-page':
             apiAdminGetUsers(sId).then(data => {
 
                 if (data.status != 200) {
                     showPage('login-page');
-                } 
+                }
                 else {
-                    let ajUsers = data.data;  
-                    initializeTable(ajUsers);   
+                    let ajUsers = data.data;
+                    initializeTable(ajUsers);
                     $('.pages').hide();
                     $('.' + page).fadeIn(500);
                 }
             }).catch(error => {
                 showPage('login-page');
             })
-        break;
+            break;
+
+        case 'profile-page':
+                initializeProfilePage(page);
+            break;
 
         default:
             $('.pages').hide();
-            $('.' + page).fadeIn(500); 
-        break;
+            $('.' + page).css({ 'opacity': 1 });
+            $('.' + page).fadeIn(500);
+
+            break;
     }
 }
 // check if user can see page
@@ -122,22 +127,22 @@ function appendBoxes(elem, users, isMatchesPage = false) {
     // add new users
     for (let i = 0; i < users.length; i++) {
         jUser = users[i];
-        box = ' <div class="card sticky-action"> <div class="image"> <img onerror="handleError(this)" src="./api' + jUser.imageUrl + '"></div> <div class="text activator"> <h1>' + jUser.first_name + ' ' + jUser.last_name + ', ' + jUser.age 
-        + '<i style="cursor:pointer" class="material-icons right">more_vert</i></h1></div>'
-        + '<div class="card-reveal"> <span class="card-title grey-text text-darken-4">' + jUser.first_name +'<i class="material-icons right">close</i></span>'
-        + '<p>' + jUser.description + '</p>';
-        if(isMatchesPage) {
-            box += '<p> Emal: ' + jUser.email + '</p>';  
-        } 
+        box = ' <div class="card sticky-action"> <div class="image"> <img onerror="handleError(this)" src="./api' + jUser.imageUrl + '"></div> <div class="text activator"> <h1>' + jUser.first_name + ' ' + jUser.last_name + ', ' + jUser.age
+            + '<i style="cursor:pointer" class="material-icons right">more_vert</i></h1></div>'
+            + '<div class="card-reveal"> <span class="card-title grey-text text-darken-4">' + jUser.first_name + '<i class="material-icons right">close</i></span>'
+            + '<p>' + jUser.description + '</p>';
+        if (isMatchesPage) {
+            box += '<p> Emal: ' + jUser.email + '</p>';
+        }
 
-        if(jUser.latitude && jUser.longitude){
-            box += '<button class="location-button btn modal-trigger" onclick="seeLocation('+ jUser.latitude + ',' + jUser.longitude + ')">See Location</button>';
+        if (jUser.latitude && jUser.longitude) {
+            box += '<button class="location-button btn modal-trigger" onclick="seeLocation(' + jUser.latitude + ',' + jUser.longitude + ')">See Location</button>';
         }
 
         box += '</div>';
         $('.' + elem).append(box);
     }
-    
+
     const emptyBox = ""
     $('.' + elem).append('<div style="width:350px;margin-right:20px;"></div>');
     $('.' + elem).append('<div style="width:350px;margin-right:20px;"></div>');
@@ -157,17 +162,17 @@ function showNavbar(page) {
         $('.navbar-container').hide();
         $('.navbar-admin').hide();
     } else {
-        if(page === 'admin-page') {
-            $('.navbar-admin').show();
+        if (page === 'admin-page') {
+            $('.navbar-admin').fadeIn(500);
         } else {
-            $('.navbar-container').show();
+            $('.navbar-container').fadeIn(500);
         }
     }
 }
 
 function initializeTable(ajUsers) {
     $('.table-body').empty();
-    ajUsers.forEach(function(jUser) {
+    ajUsers.forEach(function (jUser) {
         let domElement = `
             <tr>
                 <td>
@@ -192,5 +197,33 @@ function initializeTable(ajUsers) {
         $('.table-body').append(domElement);
     });
     $('select').material_select();
-      
+}
+
+function initializeProfilePage(page) {
+    $('.profile-container').empty();
+    if(!verifyAuth()) return;    
+    jUser = JSON.parse(localStorage.getItem('USER_DATA'));
+
+    let table = `
+    <div class="divider"></div>
+    <div class="section">
+        <h5>Name</h5>
+        <p>${jUser.first_name} ${jUser.last_name}</p>
+    </div>
+    <div class="divider"></div>
+    <div class="section">
+        <h5>Email</h5>
+        <p>${jUser.email}</p>
+    </div>
+    <div class="divider"></div>
+    <div class="section">
+        <h5>Description</h5>
+        <p>${jUser.description}</p>
+    </div>
+    `;
+
+    $('.profile-container').append(table);
+    $('.pages').hide();
+    $('.' + page).fadeIn(500);
+
 }

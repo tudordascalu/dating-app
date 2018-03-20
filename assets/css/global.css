@@ -30,6 +30,10 @@ header {
 .users-page {
     display: none;
 }
+
+.login-page {
+    opacity: 0;
+}
 .signup-page, .login-page {
     height: 100%;
     width: 100%;

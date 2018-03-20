@@ -25,6 +25,10 @@
             <?php require_once('./components/users.php');?>
         </div>
 
+        <div class="pages profile-page">
+            <?php require_once('./components/profile.php');?>
+        </div>
+
         <div class="pages admin-page">
             <?php require_once('./components/admin.php');?>
         </div>
