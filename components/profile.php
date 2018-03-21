@@ -1,5 +1,4 @@
 <div class="container profile-container" style="margin-top: 30px">
-    <div class="divider"></div>
     <div class="section">
         <h5>Name</h5>
         <p>Tudor Dascalu</p>

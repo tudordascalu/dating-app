@@ -20,7 +20,7 @@ function notifyMe() {
     Notification.requestPermission();
   else {
     var notification = new Notification('Tinder', {
-      icon: 'http://sitecampaign.com/wp-content/themes/sitecampaign-sage//dist/images/icon_1.svg',
+      icon: './assets/images/heart.png',
       body: "You have a new match!",
     });
   }

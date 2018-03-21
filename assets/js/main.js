@@ -205,7 +205,6 @@ function initializeProfilePage(page) {
     jUser = JSON.parse(localStorage.getItem('USER_DATA'));
 
     let table = `
-    <div class="divider"></div>
     <div class="section">
         <h5>Name</h5>
         <p>${jUser.first_name} ${jUser.last_name}</p>
