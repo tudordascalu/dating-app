@@ -18,36 +18,34 @@
     }
 
     function dbSaveUser($jUser,$db) {
-        echo json_encode($jUser);
         try{
-            echo 'am ajuns aici';
             $stmt = $db->prepare('INSERT INTO users 
-            VALUES (null, :firstName, :lastName, :pass, :email, :gender, :age, :motto, :interest, :profile_image, 1)');
+                VALUES (null, :firstName, :lastName, :pass, :email, :gender, :age, :motto, :interest, :profile_image, 1)');
             $stmt->bindValue(':firstName', $jUser->first_name); // prevent sql injections
             $stmt->bindValue(':lastName', $jUser->last_name);
-            $stmt->bindValue(':email', $jUser->password);
-            $stmt->bindValue(':pass', $jUser->last_name);
+            $stmt->bindValue(':email', $jUser->email);
+            $stmt->bindValue(':pass', $jUser->password);
             $stmt->bindValue(':gender', $jUser->gender);
             $stmt->bindValue(':age', $jUser->age);
             $stmt->bindValue(':motto', $jUser->description);
             $stmt->bindValue(':interest', $jUser->interest);
             $stmt->bindValue(':profile_image', $jUser->imageUrl); // prevent sql injections
             $stmt->execute();
-            echo 'am ajuns si aici cu bine';
+            // add verification key to table
+            dbAddVerificationKey($jUser->activation_key, $db);
         }catch (PDOException $ex){
             echo 'exception';
         }
     }
-/*
-    function dbAddRole() {
-        echo json_encode();
-        try {
-            $stmt = $db->prepare('INSERT INTO roles VALUES(null, :sName)');
-            $stmt->bindValue(':sName', 1);
+
+    function dbAddVerificationKey($sAccessKey, $db) {
+        try{
+            $stmt = $db->prepare('INSERT INTO account_verification 
+                VALUES (:id, 0, :access_key)');
+            $stmt->bindValue(':id', $db->lastInsertId()); // prevent sql injections
+            $stmt->bindValue(':access_key', $sAccessKey); // prevent sql injections
             $stmt->execute();
-            echo 'da';
-        }catch( PDOException $ex){
-            echo "EXCEPTION";
+        }catch (PDOException $ex){
+            echo 'exception';
         }
     }
-*/

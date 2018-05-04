@@ -10,7 +10,7 @@ try{
 );
 
 $db = new PDO( $sConnection, $sUserName, $sPassword, $aOptions );
-echo 'db connection added';
+// echo 'db connection added';
 }catch( PDOException $e){
 
 echo 'error';
