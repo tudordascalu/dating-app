@@ -1,5 +1,7 @@
 <?php
     session_start();
+// database connection
+include_once './controllers/database.php';
 // helpers
 include_once './helpers/response.php';
 include_once './helpers/authHelper.php';
