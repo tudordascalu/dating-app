@@ -45,7 +45,7 @@
         exit;
     }
  
-    function signup($ajUsers) {
+    function signup($ajUsers, $db) {
         $sFirstName = $_POST['firstName'];
         $sLastName = $_POST['lastName'];
         $iAge = $_POST['age'];
@@ -123,9 +123,11 @@
         array_push($ajUsers, $jUser);
         
         // insert data into 'db'
+        dbSaveUser($jUser, $db);
+
         $sajUsers = json_encode($ajUsers);
         file_put_contents('./storage/users.txt', $sajUsers);
-
+        
         // save image to file
         sendVerificationEmail($jUser->email, $jUser->activation_key);
         sendResponse(200, "user signed up", $jUser);
