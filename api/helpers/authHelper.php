@@ -20,7 +20,7 @@
     function dbSaveUser($jUser,$db) {
         try{
             $stmt = $db->prepare('INSERT INTO users 
-                VALUES (null, :firstName, :lastName, :pass, :email, :gender, :age, :motto, :interest, :profile_image, 1)');
+                VALUES (null, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 1)');
             $stmt->bindValue(':firstName', $jUser->first_name); // prevent sql injections
             $stmt->bindValue(':lastName', $jUser->last_name);
             $stmt->bindValue(':email', $jUser->email);
@@ -50,3 +50,40 @@
         }
     }
     
+    function dbLoginUser($sEmail, $sPassword, $db) {
+        try{
+            $stmt = $db->prepare('SELECT id FROM users WHERE email = :sEmail AND pass = :sPassword');
+            $stmt->bindValue(':sEmail', $sEmail); // prevent sql injections
+            $stmt->bindValue(':sPassword', $sPassword); // prevent sql injections
+            $stmt->execute();
+            $jData = $stmt->fetch();
+            if($jData == false) {
+                // wrong credentials
+                echo 'wrong credentials';
+                exit;
+            }
+            dbCheckIfVerified($jData['id'], $db);
+        }catch (PDOException $ex){
+            echo 'exception';
+        }
+    }
+
+    function dbCheckIfVerified($id, $db) {
+        try{
+            $stmt = $db->prepare('SELECT verified FROM account_verification WHERE user_id = :id');
+            $stmt->bindValue(':id', $id); // prevent sql injections
+            $stmt->execute();
+            $jData = $stmt->fetch();
+            if($jData['verified'] == 1) {
+                // user is verified
+                echo 'user logged in';
+                exit;
+            } 
+
+            // user is not verified
+            echo 'user is not verified';
+            exit;
+        }catch (PDOException $ex){
+            echo 'exception';
+        }
+    }
