@@ -21,9 +21,12 @@
 
     function dbUpdateAccountVerification($id, $db) {
         try {
-            $stmt = $db->prepare('UPDATE account_verification SET verified = true, activation_key = NULL WHERE user_id = :id');
+            $stmt = $db->prepare('UPDATE account_verification SET verified = true, activation_key = NULL, access_token = :accessToken WHERE user_id = :id');
             $stmt->bindValue(':id', $id);
+            $stmt->bindValue(':accessToken', uniqid());
             $stmt->execute();
+            // echo "{'status':'success', 'message':'you are verified'}";
+            // exit;
         } catch (PDOException $ex) {
             echo 'exception';
         }
