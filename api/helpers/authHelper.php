@@ -41,7 +41,7 @@
     function dbAddVerificationKey($sAccessKey, $db) {
         try{
             $stmt = $db->prepare('INSERT INTO account_verification 
-                VALUES (:id, 0, :access_key)');
+                VALUES (:id, 0, :access_key, NULL)');
             $stmt->bindValue(':id', $db->lastInsertId()); // prevent sql injections
             $stmt->bindValue(':access_key', $sAccessKey); // prevent sql injections
             $stmt->execute();
@@ -68,22 +68,34 @@
         }
     }
 
-    function dbCheckIfVerified($id, $db) {
+    function dbCheckIfVerified($userId, $db) {
         try{
-            $stmt = $db->prepare('SELECT verified FROM account_verification WHERE user_id = :id');
-            $stmt->bindValue(':id', $id); // prevent sql injections
+            $stmt = $db->prepare('SELECT verified, access_token FROM account_verification WHERE user_id = :id');
+            $stmt->bindValue(':id', $userId); // prevent sql injections
             $stmt->execute();
             $jData = $stmt->fetch();
             if($jData['verified'] == 1) {
                 // user is verified
-                echo 'user logged in';
-                exit;
+                dbSendLoginSuccessResponse($userId, $jData['access_token'], $db);
             } 
 
             // user is not verified
             echo 'user is not verified';
             exit;
         }catch (PDOException $ex){
+            echo 'exception';
+        }
+    }
+
+    function dbSendLoginSuccessResponse($userId, $accessToken, $db) {
+        try{
+            $stmt = $db->prepare('SELECT * FROM users WHERE id = :id');
+            $stmt->bindValue(':id', $userId); // prevent sql injections
+            $stmt->execute();
+            $jUser = $stmt->fetch();
+            $jUser['id'] = $accessToken;
+            sendResponse(200, 'user logged in', $jUser);
+        }catch (PDOException $ex) {
             echo 'exception';
         }
     }
