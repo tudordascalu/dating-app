@@ -20,7 +20,7 @@
     function dbSaveUser($jUser,$db) {
         try{
             $stmt = $db->prepare('INSERT INTO users 
-                VALUES (null, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 1)');
+                VALUES (NULL, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 1, NULL, NULL)');
             $stmt->bindValue(':firstName', $jUser->first_name); // prevent sql injections
             $stmt->bindValue(':lastName', $jUser->last_name);
             $stmt->bindValue(':email', $jUser->email);
@@ -32,18 +32,19 @@
             $stmt->bindValue(':profile_image', $jUser->imageUrl); // prevent sql injections
             $stmt->execute();
             // add verification key to table
-            dbAddVerificationKey($jUser->activation_key, $db);
+            dbAddVerificationKey($jUser, $db);
         }catch (PDOException $ex){
-            sendResponse(500, "server error", null);
+            // sendResponse(401, "This email is already being used", null);
+            echo $ex;
         }
     }
 
-    function dbAddVerificationKey($sAccessKey, $db) {
+    function dbAddVerificationKey($jUser, $db) {
         try{
             $stmt = $db->prepare('INSERT INTO account_verification 
                 VALUES (:id, 0, :access_key, NULL)');
             $stmt->bindValue(':id', $db->lastInsertId()); // prevent sql injections
-            $stmt->bindValue(':access_key', $sAccessKey); // prevent sql injections
+            $stmt->bindValue(':access_key', $jUser->activation_key); // prevent sql injections
             $stmt->execute();
         }catch (PDOException $ex){
             sendResponse(500, "server error", null);

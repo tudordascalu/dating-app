@@ -41,14 +41,6 @@
         $iInterest = $_POST['interest'];
         $sDescription = $_POST['description'];
 
-        
-        foreach($ajUsers as $jU) {
-            if($jU->email == $sEmail) {
-                echo '{"status":"error","message":"email already exists"}';
-                exit;
-            }
-        }
-
         if(!$sFirstName || !$sLastName || !$iAge || !$sEmail || !$sPassword || !$aImage['tmp_name']) {
             sendResponse(400, "make sure you fill up all the required fields", null);
         }
@@ -153,5 +145,6 @@
 
             $mail->send();
         } catch (Exception $e) {
+            echo $e;
         }
     }

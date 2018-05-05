@@ -4,11 +4,20 @@ $(".signup-form").on("submit", function (event) {
   sReqType = 'signup';
   apiPostForm(formData, sReqType)
   .then(data => {
-    if(!data.data) {
-      Materialize.toast("Make sure you filled up the form!", 3000);
-      return;
+    switch (data.code) {
+      case 400: 
+        Materialize.toast("Make sure you filled up the form!", 3000);
+        break;
+      case 401: 
+        Materialize.toast("This email is already being used!", 3000);
+        break;
+      case 500:
+        Materialize.toast("Server error! Please come back later..", 3000);
+        break;
+      default:
+        showPage("login-page");
+        break;
     }
-    showPage("login-page");
   })
     .catch(error => {
       Materialize.toast('Could not sign you up!', 3000);
