@@ -30,8 +30,8 @@ switch($sRequestType) {
         getUsers($sajUsers);
     break;
 
-    case 'login': 
-        login($ajUsers);
+    case 'login':   
+        login($ajUsers, $db);
     break;
 
     case 'logout':
