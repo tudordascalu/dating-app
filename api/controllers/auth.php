@@ -19,23 +19,6 @@
             sendResponse(201, 'admin logged in', $jAdmin);
         }
         dbLoginUser($sEmail, $sPassword, $db);
-        foreach($ajUsers as $jUser) {
-            if($jUser->email === $sEmail && $jUser->password === $sPassword) {
-                if($jUser->verified != 1) {
-                    echo '{"status":"error","code":"403", "message":"please verify your account"}';
-                    exit;
-                }
-                if($jUser->role === "admin") {
-                    sendResponse(201, 'admin logged in', $jUser);
-                }
-                $sjUser = json_encode($jUser);
-                $_SESSION[$jUser->id] = "logged in";
-                echo '{"status":"success", "message":"user logged in", "data":'.$sjUser.'}';
-                exit;
-            }
-        }
-        echo '{"status":"error","message":"username or password is incorrect"}';
-        exit;
     }
 
     function logout() {
