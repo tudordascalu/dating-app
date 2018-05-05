@@ -103,14 +103,8 @@
         $jUser->verified = 0;
         $jUser->activation_key = uniqid();
 
-        // add user to array
-        array_push($ajUsers, $jUser);
-        
         // insert data into 'db'
         dbSaveUser($jUser, $db);
-
-        $sajUsers = json_encode($ajUsers);
-        file_put_contents('./storage/users.txt', $sajUsers);
         
         // save image to file
         sendVerificationEmail($jUser->email, $jUser->activation_key);
