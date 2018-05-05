@@ -9,7 +9,7 @@
         exit;
     }
 
-    function login($ajUsers) {
+    function login($ajUsers, $db) {
         $sEmail = $_POST['email'];
         $sPassword = $_POST['password'];
         if($sEmail == 'admin@gmail.com' && $sPassword == 'admin') {
@@ -18,6 +18,7 @@
             $jAdmin = json_decode($sjAdmin);
             sendResponse(201, 'admin logged in', $jAdmin);
         }
+        dbLoginUser($sEmail, $sPassword, $db);
         foreach($ajUsers as $jUser) {
             if($jUser->email === $sEmail && $jUser->password === $sPassword) {
                 if($jUser->verified != 1) {

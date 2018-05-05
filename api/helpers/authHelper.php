@@ -59,7 +59,7 @@
             $jData = $stmt->fetch();
             if($jData == false) {
                 // wrong credentials
-                echo 'wrong credentials';
+                echo '{"status":"error","message":"username or password is incorrect"}';
                 exit;
             }
             dbCheckIfVerified($jData['id'], $db);
@@ -80,10 +80,10 @@
             } 
 
             // user is not verified
-            echo 'user is not verified';
+            echo '{"status":"error","code":"403", "message":"please verify your account"}';
             exit;
         }catch (PDOException $ex){
-            echo 'exception';
+            echo '{"status":"error","message":"server error"}';
         }
     }
 
@@ -94,8 +94,9 @@
             $stmt->execute();
             $jUser = $stmt->fetch();
             $jUser['id'] = $accessToken;
+            $_SESSION[$jUser['id']] = "logged in";
             sendResponse(200, 'user logged in', $jUser);
         }catch (PDOException $ex) {
-            echo 'exception';
+            echo '{"status":"error","message":"server error"}';
         }
     }

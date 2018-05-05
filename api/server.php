@@ -8,6 +8,7 @@ include_once './helpers/response.php';
 include_once './helpers/authHelper.php';
 include_once './helpers/storage.php';
 include_once './helpers/tinderHelper.php';
+include_once './helpers/locationHelper.php';
 
 // controllers
 include_once './controllers/auth.php';
@@ -61,7 +62,7 @@ switch($sRequestType) {
 
     case 'saveLocation':
         verifyLogin();
-        saveNewLocation($ajUsers);
+        saveNewLocation($ajUsers, $db);
     break;
 
     case 'adminGetUsers': 
