@@ -73,7 +73,7 @@ function showPage(page) {
                     const jUser = data.data;
                     localStorage['TINDER_USER_DATA'] = JSON.stringify(jUser);
                     $('.tinder-page .card-title').text(jUser.last_name + ', ' + jUser.age);
-                    $('.tinder-page .card-description').text(jUser.description);
+                    $('.tinder-page .card-description').text(jUser.motto);
                     $('.tinder-page .card-image img').attr('src', '/api/' + jUser.imageUrl);
                     $('.pages').hide();
                     $('.tinder-page').fadeIn(500);
@@ -130,7 +130,7 @@ function appendBoxes(elem, users, isMatchesPage = false) {
         box = ' <div class="card sticky-action"> <div class="image"> <img onerror="handleError(this)" src="./api' + jUser.imageUrl + '"></div> <div class="text activator"> <h1>' + jUser.first_name + ' ' + jUser.last_name + ', ' + jUser.age
             + '<i style="cursor:pointer" class="material-icons right">more_vert</i></h1></div>'
             + '<div class="card-reveal"> <span class="card-title grey-text text-darken-4">' + jUser.first_name + '<i class="material-icons right">close</i></span>'
-            + '<p>' + jUser.description + '</p>';
+            + '<p>' + jUser.motto + '</p>';
         if (isMatchesPage) {
             box += '<p> Emal: ' + jUser.email + '</p>';
         }
@@ -217,7 +217,7 @@ function initializeProfilePage(page) {
     <div class="divider"></div>
     <div class="section">
         <h5>Description</h5>
-        <p>${jUser.description}</p>
+        <p>${jUser.motto}</p>
     </div>
     `;
 
