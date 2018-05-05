@@ -34,7 +34,7 @@
             // add verification key to table
             dbAddVerificationKey($jUser->activation_key, $db);
         }catch (PDOException $ex){
-            echo 'exception';
+            sendResponse(500, "server error", null);
         }
     }
 
@@ -46,7 +46,7 @@
             $stmt->bindValue(':access_key', $sAccessKey); // prevent sql injections
             $stmt->execute();
         }catch (PDOException $ex){
-            echo 'exception';
+            sendResponse(500, "server error", null);
         }
     }
     
@@ -64,7 +64,7 @@
             }
             dbCheckIfVerified($jData['id'], $db);
         }catch (PDOException $ex){
-            echo 'exception';
+            sendResponse(500, "server error", null);
         }
     }
 
@@ -83,7 +83,7 @@
             echo '{"status":"error","code":"403", "message":"please verify your account"}';
             exit;
         }catch (PDOException $ex){
-            echo '{"status":"error","message":"server error"}';
+            sendResponse(500, "server error", null);
         }
     }
 
@@ -98,5 +98,6 @@
             sendResponse(200, 'user logged in', $jUser);
         }catch (PDOException $ex) {
             echo '{"status":"error","message":"server error"}';
+            sendResponse(500, "server error", null);
         }
     }

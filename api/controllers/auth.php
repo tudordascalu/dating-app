@@ -19,6 +19,7 @@
             sendResponse(201, 'admin logged in', $jAdmin);
         }
         dbLoginUser($sEmail, $sPassword, $db);
+        sendResponse(400, 'user login', null);
     }
 
     function logout() {
@@ -106,7 +107,7 @@
         // insert data into 'db'
         dbSaveUser($jUser, $db);
         
-        // save image to file
+        // send notification email
         sendVerificationEmail($jUser->email, $jUser->activation_key);
         sendResponse(200, "user signed up", $jUser);
     }
