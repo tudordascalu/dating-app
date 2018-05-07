@@ -1,45 +1,24 @@
 <?php
     include('./controllers/database.php');
     $sKey = $_GET['key'];
+    
     // verify user in db
-    dbVerifyUser($db, $sKey);
+    dbVerifyUser($sKey, $db);
 
-    $saUsers = file_get_contents('./storage/users.txt');
-    $aUsers = json_decode($saUsers);
-    foreach($aUsers as $jUser) {
-        if($jUser->activation_key == $sKey) {
-            $jUser->verified = 1;
-            $jUser->activation_key = "";
-            $saUsers = json_encode($aUsers);
-            file_put_contents('./storage/users.txt', $saUsers);
-            echo "{'status':'success', 'message':'you are verified'}";
-            exit;
-        }
-    }
-
-    echo "{'status':'error', 'message':'invalid activation token'}";
-
-    function dbUpdateAccountVerification($id, $db) {
+    echo 'Invalid verification key!';
+    exit;
+    // methods
+    function dbVerifyUser($sKey, $db) {
         try {
-            $stmt = $db->prepare('UPDATE account_verification SET verified = true, activation_key = NULL, access_token = :accessToken WHERE user_id = :id');
-            $stmt->bindValue(':id', $id);
+            $stmt = $db->prepare('UPDATE users SET verified = true, activation_key = NULL, access_token = :accessToken WHERE activation_key = :sKey');
+            $stmt->bindValue(':sKey', $sKey);
             $stmt->bindValue(':accessToken', uniqid());
             $stmt->execute();
-            // echo "{'status':'success', 'message':'you are verified'}";
-            // exit;
+            if($stmt->rowCount() > 0) {
+                echo 'Your account is now verified!';
+                exit;
+            }
         } catch (PDOException $ex) {
-            echo 'exception';
-        }
-    }
-
-    function dbVerifyUser($db, $sKey) {
-        try {
-            $stmt = $db->prepare('SELECT user_id FROM account_verification WHERE activation_key = :sKey');
-            $stmt->bindValue(':sKey', $sKey);
-            $stmt->execute();
-            $jData = $stmt->fetch();
-            dbUpdateAccountVerification($jData['user_id'], $db);
-        } catch (PDOException $ex) {
-            echo 'exception';
+            echo 'Server error';
         }
     }
