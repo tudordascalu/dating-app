@@ -20,7 +20,7 @@
     function dbSaveUser($jUser,$db) {
         try{
             $stmt = $db->prepare('INSERT INTO users 
-                VALUES (NULL, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 1, NULL, NULL)');
+                VALUES (NULL, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 1, NULL, NULL, NULL, :activation_key, false)');
             $stmt->bindValue(':firstName', $jUser->first_name); // prevent sql injections
             $stmt->bindValue(':lastName', $jUser->last_name);
             $stmt->bindValue(':email', $jUser->email);
@@ -29,76 +29,40 @@
             $stmt->bindValue(':age', $jUser->age);
             $stmt->bindValue(':motto', $jUser->description);
             $stmt->bindValue(':interest', $jUser->interest);
-            $stmt->bindValue(':profile_image', $jUser->imageUrl); // prevent sql injections
+            $stmt->bindValue(':profile_image', $jUser->imageUrl); 
+            $stmt->bindValue(':activation_key', uniqid());
             $stmt->execute();
-            // add verification key to table
-            dbAddVerificationKey($jUser, $db);
-        }catch (PDOException $ex){
-            // sendResponse(401, "This email is already being used", null);
-            echo $ex;
-        }
-    }
 
-    function dbAddVerificationKey($jUser, $db) {
-        try{
-            $stmt = $db->prepare('INSERT INTO account_verification 
-                VALUES (:id, 0, :access_key, NULL)');
-            $stmt->bindValue(':id', $db->lastInsertId()); // prevent sql injections
-            $stmt->bindValue(':access_key', $jUser->activation_key); // prevent sql injections
-            $stmt->execute();
         }catch (PDOException $ex){
-            sendResponse(500, "server error", null);
+            sendResponse(401, "This email is already being used", null);
         }
     }
     
     function dbLoginUser($sEmail, $sPassword, $db) {
         try{
-            $stmt = $db->prepare('SELECT id FROM users WHERE email = :sEmail AND pass = :sPassword');
+            $stmt = $db->prepare('SELECT * FROM users WHERE email = :sEmail AND pass = :sPassword');
             $stmt->bindValue(':sEmail', $sEmail); // prevent sql injections
             $stmt->bindValue(':sPassword', $sPassword); // prevent sql injections
             $stmt->execute();
             $jData = $stmt->fetch();
+            
             if($jData == false) {
                 // wrong credentials
                 echo '{"status":"error","message":"username or password is incorrect"}';
                 exit;
             }
-            dbCheckIfVerified($jData['id'], $db);
-        }catch (PDOException $ex){
-            sendResponse(500, "server error", null);
-        }
-    }
-
-    function dbCheckIfVerified($userId, $db) {
-        try{
-            $stmt = $db->prepare('SELECT verified, access_token FROM account_verification WHERE user_id = :id');
-            $stmt->bindValue(':id', $userId); // prevent sql injections
-            $stmt->execute();
-            $jData = $stmt->fetch();
-            if($jData['verified'] == 1) {
+            
+            if($jData['verified'] == true) {
                 // user is verified
-                dbSendLoginSuccessResponse($userId, $jData['access_token'], $db);
+                $jData['id'] = $jData['access_token'];
+                $_SESSION[$jData['access_token']] = "logged in";
+                sendResponse(200, 'user logged in', $jData);
             } 
-
-            // user is not verified
+            
             echo '{"status":"error","code":"403", "message":"please verify your account"}';
             exit;
-        }catch (PDOException $ex){
-            sendResponse(500, "server error", null);
-        }
-    }
 
-    function dbSendLoginSuccessResponse($userId, $accessToken, $db) {
-        try{
-            $stmt = $db->prepare('SELECT * FROM users WHERE id = :id');
-            $stmt->bindValue(':id', $userId); // prevent sql injections
-            $stmt->execute();
-            $jUser = $stmt->fetch();
-            $jUser['id'] = $accessToken;
-            $_SESSION[$jUser['id']] = "logged in";
-            sendResponse(200, 'user logged in', $jUser);
-        }catch (PDOException $ex) {
-            echo '{"status":"error","message":"server error"}';
+        }catch (PDOException $ex){
             sendResponse(500, "server error", null);
         }
     }
