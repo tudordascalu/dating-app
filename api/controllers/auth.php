@@ -145,6 +145,6 @@
 
             $mail->send();
         } catch (Exception $e) {
-            echo $e;
+            // echo $e;
         }
     }
