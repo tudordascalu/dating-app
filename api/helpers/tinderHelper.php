@@ -17,22 +17,50 @@
                 }
             }
         }
-
     }
 
-    function dbCheckSwapCount($jU) {
-        $dCurrentDate = date("Y/m/d");
-        if($jU->role == 'vip') {
-            return;
-        }
+    function dbCheckSwapCount($sId, $db) {
+        try {
+            // get all users excluded yourself
+            $stmt = $db->prepare('SELECT users.id, swipe_count, swipe_date, roles.role FROM users JOIN roles ON users.role_id = roles.id WHERE access_token = :id');
+            $stmt->bindValue(':id', $sId); // prevent sql injections
+            $stmt->execute();
+            $jU = $stmt->fetch();
+            
+            if($jU['role'] == 'vip') {
+                return;
+            }
 
-        if(empty($jU->swipe_date) || $jU->swipe_date != $dCurrentDate) {
-            $jU->swipe_date = $dCurrentDate;
-            $jU->swipe_count = 0;
-            saveToStorage($ajUsers, './storage/users.txt');
+            $dCurrentDate = date("Y-m-d");
+            if(empty($jU['swipe_date']) || $jU['swipe_date'] != $dCurrentDate) {
+                $jU['swipe_date'] = $dCurrentDate;
+                $jU['swipe_count'] = 1;
+                dbUpdateSwipeDate($jU, $db);
+                return;
+            }
+    
+            if($jU['swipe_count'] > 5) {
+                sendResponse(405, 'maximum number of users exceeded', null);   
+            }
+
+            $jU['swipe_count']++;
+            dbUpdateSwipeDate($jU, $db);
+
+        } catch (PDOException $ex){
+            echo $ex;
         }
-        if($jU->swipe_count > 5) {
-            sendResponse(405, 'maximum number of users exceeded', null);   
+    }
+
+    function dbUpdateSwipeDate($jU, $db) {
+        try {
+            // get all users excluded yourself
+            $stmt = $db->prepare('UPDATE users SET swipe_count = :swapCount, swipe_date = :swapDate WHERE id = :id');
+            $stmt->bindValue(':swapDate', $jU['swipe_date']); // prevent sql injections
+            $stmt->bindValue(':swapCount', $jU['swipe_count']);
+            $stmt->bindValue(':id', $jU['id']);
+            $stmt->execute();
+        } catch (PDOException $ex){
+            sendResponse(500, "server error", null);
         }
     }
 
@@ -54,14 +82,16 @@
     function dbGetNextUser($jMatrix, $db) {
         $sId = $_GET['id'];
         $iInterest = $_POST['interest'];
+        dbCheckSwapCount($sId, $db);
+
         try {
             // get all users excluded yourself
-            $stmt = $db->prepare('SELECT * FROM users JOIN roles ON users.role_id = roles.id WHERE users.access_token != :id AND users.gender = :gender AND users.verified = 1 ');
+            $stmt = $db->prepare('SELECT * FROM users WHERE users.access_token != :id AND users.gender = :gender AND users.verified = 1 ');
             $stmt->bindValue(':id', $sId); // prevent sql injections
             $stmt->bindValue(':gender', $iInterest); 
             $stmt->execute();
             $ajUsers = $stmt->fetchAll();
-            if($ajUsers == []) {
+            if(count($ajUsers) < 1) {
                 // wrong credentials
                 echo '{"status":"error","message":"there are no users who match your interest"}';
                 exit;
@@ -69,7 +99,6 @@
             
             foreach($ajUsers as $jUser) {
                 if(!$jMatrix[$sId][$jUser->id]) {
-                    // checkSwapCount($sId, $ajUsers);
                     $jData->id = $jUser['access_token'];
                     $jData->first_name = $jUser['first_name'];
                     $jData->last_name = $jUser['last_name'];
@@ -78,7 +107,6 @@
                     $jData->gender = $jUser['gender'];
                     $jData->description = $jUser['motto'];
                     $jData->nextUserInterest = $iInterest;
-                    $jData->role = $jUser['role'];
                     
                     $sjData = json_encode($jData);
                     echo '{"status":"success", "message":"this is the next user", "data":'.$sjData.'}';

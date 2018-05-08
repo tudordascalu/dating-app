@@ -20,7 +20,7 @@
     function dbSaveUser($jUser,$db) {
         try{
             $stmt = $db->prepare('INSERT INTO users 
-                VALUES (NULL, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 1, NULL, NULL, NULL, :activation_key, false)');
+                VALUES (NULL, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 1, NULL, NULL, NULL, :activation_key, false, NULL, NULL)');
             $stmt->bindValue(':firstName', $jUser->first_name); // prevent sql injections
             $stmt->bindValue(':lastName', $jUser->last_name);
             $stmt->bindValue(':email', $jUser->email);
