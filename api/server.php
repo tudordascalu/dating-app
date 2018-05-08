@@ -49,7 +49,8 @@ switch($sRequestType) {
 
     case 'getUser':
         verifyLogin();
-        getNextUser($ajUsers, $jMatrix);
+        // getNextUser($ajUsers, $jMatrix);
+        dbGetNextUser($jMatrix, $db);
     break;
 
     case 'getMatches':
