@@ -44,7 +44,7 @@ switch($sRequestType) {
     break;
     
     case 'like': 
-        onLike($ajUsers, $jMatrix);
+        onLike($jMatrix, $db);
     break;
 
     case 'getUser':

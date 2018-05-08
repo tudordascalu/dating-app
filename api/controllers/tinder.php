@@ -15,27 +15,27 @@
         echo '{"status":"error", "message":"desktop notification"}';
     }
 
-    function onLike($ajUsers, $jMatrix) {
-       $sId = verifyLogin();
-       $sLikeId = $_POST['likeId'];
-       $sLike = $_POST['like'];
-       if($sId == $sLikeId) {
-        echo '{"status":"error","message":"user id is not valid"}';
-        exit;
-       }
-       checkIfValidId($ajUsers, $sLikeId);
+    function onLike($jMatrix, $db) {
+        $sId = verifyLogin();
+        $sLikeId = $_POST['likeId'];
+        $sLike = $_POST['like'];
+        
+        if($sId == $sLikeId) {
+            echo '{"status":"error","message":"user id is not valid"}';
+            exit;
+        }
+        
+        dbCheckIfValidId($sLikeId, $db);
 
-       $jMatrix[$sId][$sLikeId] = $sLike;
-      
-       if(isMatch($jMatrix, $sId, $sLikeId)) {
-           $jMatrix[$sId]['new_match'] = 1;
-           $jMatrix[$sLikeId]['new_match'] = 1;
-       }
+        $jMatrix[$sId][$sLikeId] = $sLike;
+        if(isMatch($jMatrix, $sId, $sLikeId)) {
+            $jMatrix[$sId]['new_match'] = 1;
+            $jMatrix[$sLikeId]['new_match'] = 1;
+        }
        
-       $sjMatrix = json_encode($jMatrix);
-       file_put_contents('./storage/matches.txt', $sjMatrix);
-       increaseSwapCount($sId, $ajUsers);
-       echo '{"status":"success", "message":"like registered", "data":'.$sjMatrix.'}';
+        $sjMatrix = json_encode($jMatrix);
+        file_put_contents('./storage/matches.txt', $sjMatrix);
+        echo '{"status":"success", "message":"like registered", "data":'.$sjMatrix.'}';
     }
 
     function getNextUser($ajUsers, $jMatrix) {
@@ -64,15 +64,19 @@
         exit;
     }
 
-    function checkIfValidId($ajUsers, $sLikeId) {
-        foreach($ajUsers as $jUser) {
-            if($sLikeId == $jUser->id) {
-                // existing user
+    function dbCheckIfValidId($id, $db) {
+        try{
+            $stmt = $db->prepare('SELECT id FROM users WHERE access_token = :id');
+            $stmt->bindValue(':id', $id); // prevent sql injections
+            $stmt->execute();
+            if($stmt->rowCount() > 0) {
                 return;
             }
+
+            sendResponse(400, 'user id is not valid', NULL);
+        }catch (PDOException $ex){
+            sendResponse(500, "server error", null);
         }
-        echo '{"status":"error","message":"user id is not valid"}';
-        exit;
     }
 
     function isMatch($jMatrix, $sId1, $sId2) { 
