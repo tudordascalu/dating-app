@@ -43,9 +43,6 @@
                 sendResponse(405, 'maximum number of users exceeded', null);   
             }
 
-            $jU['swipe_count']++;
-            dbUpdateSwipeDate($jU, $db);
-
         } catch (PDOException $ex){
             echo $ex;
         }
@@ -73,10 +70,19 @@
                 saveToStorage($ajUsers, './storage/users.txt');
             }
         }
+        
     }
 
-    function dbIncreaseSwipeCount($sId, $db) {
-        $dCurrentDate = date("Y/m/d");
+    function dbIncreaseSwipeCount($id, $db) {
+        try{
+            $stmt = $db->prepare('UPDATE users SET swipe_count = swipe_count + 1 WHERE access_token = :id');
+            $stmt->bindValue(':id', $id); // prevent sql injections
+            $stmt->execute();
+            
+            // sendResponse(400, 'user id is not valid', NULL);
+        }catch (PDOException $ex){
+            sendResponse(500, "server error", null);
+        }
     }
 
     function dbGetNextUser($jMatrix, $db) {

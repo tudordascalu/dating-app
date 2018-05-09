@@ -32,7 +32,9 @@
             $jMatrix[$sId]['new_match'] = 1;
             $jMatrix[$sLikeId]['new_match'] = 1;
         }
-       
+
+        dbIncreaseSwipeCount($sId, $db);
+
         $sjMatrix = json_encode($jMatrix);
         file_put_contents('./storage/matches.txt', $sjMatrix);
         echo '{"status":"success", "message":"like registered", "data":'.$sjMatrix.'}';
