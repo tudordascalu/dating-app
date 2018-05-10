@@ -61,6 +61,18 @@
         }
     }
 
+    function dbFetchUsers($id, $db) {
+        try {
+            // get all users excluded yourself
+            $stmt = $db->prepare('SELECT * FROM users WHERE access_token != :id');
+            $stmt->bindValue(':id', $id);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (PDOException $ex){
+            sendResponse(500, "server error", null);
+        }
+    }
+
     function increaseSwapCount($sId, $ajUsers) {
         $dCurrentDate = date("Y/m/d");
         foreach($ajUsers as $jU) {

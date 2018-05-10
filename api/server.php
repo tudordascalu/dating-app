@@ -54,7 +54,7 @@ switch($sRequestType) {
     break;
 
     case 'getMatches':
-        getMatches($ajUsers, $jMatrix);
+        dbGetMatches($jMatrix, $db);
     break;
     
     case 'newMatch':

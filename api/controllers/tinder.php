@@ -110,6 +110,29 @@
         exit;
     }
 
+    function dbGetMatches($jMatrix, $db) {
+        $sId = verifyLogin();
+        $aMatches = [];
+        $aUsers = dbFetchUsers($sId, $db);
+        foreach($aUsers as $aUser) {
+            $sUserId = $aUser['access_token'];
+            if($jMatrix[$sId][$sUserId] == $jMatrix[$sUserId][$sId] && $jMatrix[$sId][$sUserId] == 'like') {
+                array_push($aMatches, $aUser);
+            }
+        }
+        if(count($aMatches) > 0) {
+            $jMatrix[$sId]['new_match'] = 0;
+            $sjMatrix = json_encode($jMatrix);
+            file_put_contents('../storage/matches.txt');
+            $saMatches = json_encode($aMatches);
+            echo '{"status":"success", "message":"here are your matches", "data":'.$saMatches.'}';
+            exit;
+        }
+        
+        echo '{"status":"error","message":"there are no matches"}';
+        exit;
+    }
+
     function isNewMatch($jMatrix) {
         $sId = verifyLogin();
         if($jMatrix[$sId]['new_match'] == 1) {
