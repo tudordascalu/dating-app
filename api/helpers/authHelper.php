@@ -18,6 +18,7 @@
     }
 
     function dbSaveUser($jUser,$db) {
+        $db->beginTransaction();
         try{
             $stmt = $db->prepare('INSERT INTO users 
                 VALUES (NULL, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 1, NULL, NULL, NULL, :activation_key, false, NULL, NULL)');
@@ -30,10 +31,26 @@
             $stmt->bindValue(':motto', $jUser->description);
             $stmt->bindValue(':interest', $jUser->interest);
             $stmt->bindValue(':profile_image', $jUser->imageUrl); 
-            $stmt->bindValue(':activation_key', uniqid());
-            $stmt->execute();
+            $stmt->bindValue(':activation_key', $jUser->activation_key);
+            if($stmt->execute()) {
+                $user_id = $db->lastInsertId();
+                $stmt = $db->prepare('INSERT INTO account_activation VALUES (:userId, :activationKey)');
+                $stmt->bindValue(':userId', $user_id);
+                $stmt->bindValue(':activationKey',  $jUser->activation_key);
+                if($stmt->execute()) {
+                    // success
+                    $db->commit();
+                } else {
+                    $db->rollback();
+                    sendResponse(400, "Could not create activation key", null);
+                }
+            } else {
+                $db->rollback();
+                sendResponse(401, "This email is already being used", null);
+            }
 
         }catch (PDOException $ex){
+            $db->rollback();
             sendResponse(401, "This email is already being used", null);
         }
     }
