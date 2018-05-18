@@ -21,11 +21,6 @@
                 $stmt->bindValue(':id', $user_id);
                 $stmt->execute();
                 if($stmt->rowCount() > 0) {
-                    $stmt = $db->prepare('INSERT INTO account_verification VALUES(:id, :accessToken)');
-                    $stmt->bindValue(':accessToken', $access_token);
-                    $stmt->bindValue(':id', $user_id);
-                    $stmt->execute();
-                    
                     // success
                     echo 'Your account is now verified!';
                     exit;

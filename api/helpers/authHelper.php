@@ -71,15 +71,22 @@
             
             if($jData['verified'] == true) {
                 // user is verified
-                $jData['id'] = $jData['access_token'];
+                $jData['access_token'] = uniqid();;
                 $_SESSION[$jData['access_token']] = "logged in";
-                sendResponse(200, 'user logged in', $jData);
+                $stmt = $db->prepare('INSERT INTO account_verification VALUES(:id, :accessToken)');
+                $stmt->bindValue(':accessToken', $jData['access_token']);
+                $stmt->bindValue(':id', $jData['id']);
+                if($stmt->execute()) {
+                    sendResponse(200, 'user logged in', $jData);
+                } else {
+                    sendResponse(406, 'could not save access token', NULL);
+                }
             } 
             
             echo '{"status":"error","code":"403", "message":"please verify your account"}';
             exit;
 
-        }catch (PDOException $ex){
+        } catch (PDOException $ex){
             sendResponse(500, "server error", null);
         }
     }
