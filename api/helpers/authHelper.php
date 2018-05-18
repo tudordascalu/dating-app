@@ -71,7 +71,7 @@
             
             if($jData['verified'] == true) {
                 // user is verified
-                $jData['access_token'] = uniqid();;
+                $jData['access_token'] = uniqid();
                 $_SESSION[$jData['access_token']] = "logged in";
                 $stmt = $db->prepare('INSERT INTO account_verification VALUES(:id, :accessToken)');
                 $stmt->bindValue(':accessToken', $jData['access_token']);
