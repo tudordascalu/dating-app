@@ -77,6 +77,7 @@
                 $stmt->bindValue(':accessToken', $jData['access_token']);
                 $stmt->bindValue(':id', $jData['id']);
                 if($stmt->execute()) {
+                    $jData['id'] = $jData['access_token'];
                     sendResponse(200, 'user logged in', $jData);
                 } else {
                     sendResponse(406, 'could not save access token', NULL);
