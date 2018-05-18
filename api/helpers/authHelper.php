@@ -71,13 +71,13 @@
             
             if($jData['verified'] == true) {
                 // user is verified
-                $jData['access_token'] = uniqid();
+                $jData['access_token'] = uniqid(); // create new access token for every login and save it into the db
                 $_SESSION[$jData['access_token']] = "logged in";
                 $stmt = $db->prepare('INSERT INTO account_verification VALUES(:id, :accessToken)');
                 $stmt->bindValue(':accessToken', $jData['access_token']);
                 $stmt->bindValue(':id', $jData['id']);
                 if($stmt->execute()) {
-                    $jData['id'] = $jData['access_token'];
+                    $jData['id'] = $jData['access_token']; // the frontend uses "id" as access token
                     sendResponse(200, 'user logged in', $jData);
                 } else {
                     sendResponse(406, 'could not save access token', NULL);
@@ -88,6 +88,18 @@
             exit;
 
         } catch (PDOException $ex){
+            sendResponse(500, "server error", null);
+        }
+    }
+
+    function dbGetUserId($accessToken, $db) {
+        try {
+            $stmt = $db->prepare('SELECT user_id FROM account_verification WHERE access_key = :accessToken');
+            $stmt->bindValue(':accessToken', $accessToken);
+            $stmt->execute();
+            $jData = $stmt->fetchObject();
+            return $jData->user_id;
+        } catch ( PDOException $ex) {
             sendResponse(500, "server error", null);
         }
     }

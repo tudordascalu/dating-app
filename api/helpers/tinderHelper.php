@@ -22,7 +22,7 @@
     function dbCheckSwapCount($sId, $db) {
         try {
             // get all users excluded yourself
-            $stmt = $db->prepare('SELECT users.id, swipe_count, swipe_date, roles.role FROM users JOIN roles ON users.role_id = roles.id WHERE access_token = :id');
+            $stmt = $db->prepare('SELECT users.id, swipe_count, swipe_date, roles.role FROM users JOIN roles ON users.role_id = roles.id WHERE users.id = :id');
             $stmt->bindValue(':id', $sId); // prevent sql injections
             $stmt->execute();
             $jU = $stmt->fetch();
@@ -98,13 +98,13 @@
     }
 
     function dbGetNextUser($jMatrix, $db) {
-        $sId = $_GET['id'];
+        $accessToken = $_GET['id'];
         $iInterest = $_POST['interest'];
+        $sId = dbGetUserId($accessToken, $db);
         dbCheckSwapCount($sId, $db);
-
         try {
             // get all users excluded yourself
-            $stmt = $db->prepare('SELECT * FROM users WHERE users.access_token != :id AND users.gender = :gender AND users.verified = 1 ');
+            $stmt = $db->prepare('SELECT * FROM users WHERE id != :id AND users.gender = :gender AND users.verified = 1 ');
             $stmt->bindValue(':id', $sId); // prevent sql injections
             $stmt->bindValue(':gender', $iInterest); 
             $stmt->execute();
@@ -114,9 +114,9 @@
                 echo '{"status":"error","message":"there are no users who match your interest"}';
                 exit;
             }
-            
+
             foreach($ajUsers as $jUser) {
-                if(!$jMatrix[$sId][$jUser->id]) {
+                if(!$jMatrix[$sId][$jUser['id']]) {
                     $jData->id = $jUser['access_token'];
                     $jData->first_name = $jUser['first_name'];
                     $jData->last_name = $jUser['last_name'];

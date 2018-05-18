@@ -20,12 +20,12 @@
         $sLikeId = $_POST['likeId'];
         $sLike = $_POST['like'];
         
+        $sId = dbGetUserId($sId, $db);
+        $sLikeId = dbGetUserId($sLikeId, $db);
         if($sId == $sLikeId) {
             echo '{"status":"error","message":"user id is not valid"}';
             exit;
         }
-        
-        dbCheckIfValidId($sLikeId, $db);
 
         $jMatrix[$sId][$sLikeId] = $sLike;
         if(isMatch($jMatrix, $sId, $sLikeId)) {
@@ -41,7 +41,7 @@
     }
 
     function getNextUser($ajUsers, $jMatrix) {
-        $sId = $_GET['id'];
+        $accessToken = $_GET['id'];
         $iInterest = $_POST['interest'];
         
         foreach($ajUsers as $jUser) {
@@ -64,21 +64,6 @@
         }
         echo '{"status":"error","message":"no more users"}';
         exit;
-    }
-
-    function dbCheckIfValidId($id, $db) {
-        try{
-            $stmt = $db->prepare('SELECT id FROM users WHERE access_token = :id');
-            $stmt->bindValue(':id', $id); // prevent sql injections
-            $stmt->execute();
-            if($stmt->rowCount() > 0) {
-                return;
-            }
-
-            sendResponse(400, 'user id is not valid', NULL);
-        }catch (PDOException $ex){
-            sendResponse(500, "server error", null);
-        }
     }
 
     function isMatch($jMatrix, $sId1, $sId2) { 
