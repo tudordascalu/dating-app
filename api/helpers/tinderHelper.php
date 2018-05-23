@@ -102,6 +102,8 @@
         $iInterest = $_POST['interest'];
         $sId = dbGetUserId($accessToken, $db);
         dbCheckSwapCount($sId, $db);
+        $sPath = '/matches/'.$sId;
+        $jUserLikes = CallAPI('GET', $sPath);
         try {
             // get all users excluded yourself
             $stmt = $db->prepare('SELECT * FROM users WHERE id != :id AND users.gender = :gender AND users.verified = 1 ');
@@ -116,7 +118,9 @@
             }
 
             foreach($ajUsers as $jUser) {
-                if(!$jMatrix[$sId][$jUser['id']]) {
+                // echo $jUserLikes[$jUser['id']];
+                // echo 'da';
+                if(!$jUserLikes[$jUser['id']]) {
                     $jData->id = $jUser['access_token'];
                     $jData->first_name = $jUser['first_name'];
                     $jData->last_name = $jUser['last_name'];
@@ -141,36 +145,36 @@
 
     }
 
-    function CallAPI($method, $url, $data = false)
-{
-    $curl = curl_init();
+    function CallAPI($method, $path, $data = false) {
+        $url = 'http://localhost:8080/api'.$path;    
+        // echo $url;
+        $curl = curl_init();
+        switch ($method)
+        {
+            case "POST":
+                curl_setopt($curl, CURLOPT_POST, 1);
 
-    switch ($method)
-    {
-        case "POST":
-            curl_setopt($curl, CURLOPT_POST, 1);
+                if ($data)
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                break;
+            case "PUT":
+                curl_setopt($curl, CURLOPT_PUT, 1);
+                break;
+            default:
+                if ($data)
+                    $url = sprintf("%s?%s", $url, http_build_query($data));
+        }
 
-            if ($data)
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-            break;
-        case "PUT":
-            curl_setopt($curl, CURLOPT_PUT, 1);
-            break;
-        default:
-            if ($data)
-                $url = sprintf("%s?%s", $url, http_build_query($data));
+        // Optional Authentication:
+        // curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        // curl_setopt($curl, CURLOPT_USERPWD, "username:password");
+
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+        $result = curl_exec($curl);
+
+        curl_close($curl);
+
+        return json_decode($result, true);
     }
-
-    // Optional Authentication:
-    // curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-    // curl_setopt($curl, CURLOPT_USERPWD, "username:password");
-
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-    $result = curl_exec($curl);
-
-    curl_close($curl);
-
-    return $result;
-}

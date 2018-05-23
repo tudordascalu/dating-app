@@ -4,7 +4,7 @@
 require_once './controllers/database.php';
 
 // helpers
-include_once './helpers/apiHelper.php';
+// include_once './helpers/apiHelper.php';
 include_once './helpers/response.php';
 include_once './helpers/authHelper.php';
 include_once './helpers/storage.php';
@@ -50,7 +50,6 @@ switch($sRequestType) {
 
     case 'getUser':
         verifyLogin();
-        // getNextUser($ajUsers, $jMatrix);
         dbGetNextUser($jMatrix, $db);
     break;
 
