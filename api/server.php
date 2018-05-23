@@ -58,7 +58,7 @@ switch($sRequestType) {
     break;
     
     case 'newMatch':
-        checkNewMatch($jMatrix);
+        checkNewMatch($jMatrix, $db);
     break;
 
     case 'saveLocation':
@@ -67,7 +67,7 @@ switch($sRequestType) {
     break;
 
     case 'adminGetUsers': 
-        adminGetUsers($ajUsers);
+        dbAdminGetUsers($db);
     break;
 
     case 'adminSaveUsers': 

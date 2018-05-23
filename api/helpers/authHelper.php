@@ -21,8 +21,10 @@
         $db->beginTransaction();
         try{
             $stmt = $db->prepare('INSERT INTO users 
-                VALUES (NULL, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 1, NULL, NULL, NULL, :activation_key, false, NULL, NULL)');
-            $stmt->bindValue(':firstName', $jUser->first_name); // prevent sql injections
+                                VALUES (NULL, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 
+                                1, NULL, NULL, false');
+
+            $stmt->bindValue(':firstName', $jUser->first_name);
             $stmt->bindValue(':lastName', $jUser->last_name);
             $stmt->bindValue(':email', $jUser->email);
             $stmt->bindValue(':pass', $jUser->password);
@@ -32,6 +34,7 @@
             $stmt->bindValue(':interest', $jUser->interest);
             $stmt->bindValue(':profile_image', $jUser->imageUrl); 
             $stmt->bindValue(':activation_key', $jUser->activation_key);
+
             if($stmt->execute()) {
                 $user_id = $db->lastInsertId();
                 $stmt = $db->prepare('INSERT INTO account_activation VALUES (:userId, :activationKey)');
@@ -94,7 +97,7 @@
 
     function dbGetUserId($accessToken, $db) {
         try {
-            $stmt = $db->prepare('SELECT user_id FROM account_verification WHERE access_key = :accessToken');
+            $stmt = $db->prepare('CALL getUserId(:accessToken)');
             $stmt->bindValue(':accessToken', $accessToken);
             $stmt->execute();
             $jData = $stmt->fetchObject();

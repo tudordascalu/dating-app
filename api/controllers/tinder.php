@@ -1,6 +1,7 @@
 <?php
-    function checkNewMatch($jMatrix) {
+    function checkNewMatch($jMatrix, $db) {
         $sId = verifyLogin();
+        $sId = dbGetUserId($sId, $db);
         $sjMatrix = json_encode($jMatrix[$sId]);
         // echo $sjMatrix;
         if($jMatrix[$sId]['new_match'] == 1) {
@@ -96,15 +97,19 @@
     }
 
     function dbGetMatches($jMatrix, $db) {
-        $sId = verifyLogin();
+        $accessToken = verifyLogin();
+        $sId = dbGetUserId($accessToken, $db);
+
         $aMatches = [];
         $aUsers = dbFetchUsers($sId, $db);
+
         foreach($aUsers as $aUser) {
-            $sUserId = $aUser['access_token'];
+            $sUserId = $aUser['id'];
             if($jMatrix[$sId][$sUserId] == $jMatrix[$sUserId][$sId] && $jMatrix[$sId][$sUserId] == 'like') {
                 array_push($aMatches, $aUser);
             }
         }
+
         if(count($aMatches) > 0) {
             $jMatrix[$sId]['new_match'] = 0;
             $sjMatrix = json_encode($jMatrix);

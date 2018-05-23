@@ -64,7 +64,7 @@
     function dbFetchUsers($id, $db) {
         try {
             // get all users excluded yourself
-            $stmt = $db->prepare('SELECT * FROM users WHERE access_token != :id');
+            $stmt = $db->prepare('SELECT * FROM users WHERE id != :id');
             $stmt->bindValue(':id', $id);
             $stmt->execute();
             return $stmt->fetchAll();
@@ -87,7 +87,7 @@
 
     function dbIncreaseSwipeCount($id, $db) {
         try{
-            $stmt = $db->prepare('UPDATE users SET swipe_count = swipe_count + 1 WHERE access_token = :id');
+            $stmt = $db->prepare('UPDATE users SET swipe_count = swipe_count + 1 WHERE id = :id');
             $stmt->bindValue(':id', $id); // prevent sql injections
             $stmt->execute();
             
