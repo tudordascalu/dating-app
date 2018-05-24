@@ -1,29 +1,29 @@
 <?php
-    function checkNewMatch($jMatrix, $db) {
+    function checkNewMatch($db) {
         $sId = verifyLogin();
         $sId = dbGetUserId($sId, $db);
-        $sjMatrix = json_encode($jMatrix[$sId]);
 
         $sPath = '/matches/get/'.$sId;
         $iMatch = CallAPI('GET', $sPath);
-        echo $sId;
+
         if($iMatch == 1) {
             $sPath = '/matches/update/'.$sId.'/0';
             CallAPI('GET', $sPath);
-            echo '{"status":"success", "message":"desktop notification", "data":'.$sjMatrix.'}';
+            echo '{"status":"success", "message":"desktop notification", "data":""}';
             exit;
         }
 
         echo '{"status":"error", "message":"desktop notification"}';
     }
 
-    function onLike($jMatrix, $db) {
+    function onLike($db) {
         $sId = verifyLogin();
         $sLikeId = $_POST['likeId'];
         $sLike = $_POST['like'];
         
         $sId = dbGetUserId($sId, $db);
         $sLikeId = dbGetUserId($sLikeId, $db);
+        
         if($sId == $sLikeId) {
             echo '{"status":"error","message":"user id is not valid"}';
             exit;
@@ -32,8 +32,7 @@
         $sPath = '/like/'.$sId.'/'.$sLikeId.'/'.$sLike; 
         $jData = CallAPI('GET', $sPath);
 
-        $jMatrix[$sId][$sLikeId] = $sLike;
-        if(isMatch($jMatrix, $sId, $sLikeId)) {
+        if(isMatch($sId, $sLikeId)) {
             $sPath = '/matches/update/'.$sId.'/1';
             CallAPI('GET', $sPath);
 
@@ -42,13 +41,11 @@
         }
 
         dbIncreaseSwipeCount($sId, $db);
-
-        $sjMatrix = json_encode($jMatrix);
-        file_put_contents('./storage/matches.txt', $sjMatrix);
-        echo '{"status":"success", "message":"like registered", "data":'.$sjMatrix.'}';
+        
+        echo '{"status":"success", "message":"like registered", "data":""}';
     }
 
-    function isMatch($jMatrix, $sId1, $sId2) { 
+    function isMatch($sId1, $sId2) { 
         $sPath = '/matches/'.$sId1;
         $jUserLikes1 = CallAPI('GET', $sPath);
 
@@ -61,29 +58,8 @@
         return false;
     }
 
-    function getMatches($ajUsers, $jMatrix) {
-        $sId = verifyLogin();
-        $aMatches = [];
-        foreach($ajUsers as $jUser) {
-            $sUserId = $jUser->id;
-            if($jMatrix[$sId][$sUserId] == $jMatrix[$sUserId][$sId] && $jMatrix[$sId][$sUserId] == 'like') {
-                array_push($aMatches, $jUser);
-            }
-        }
-        if(count($aMatches) > 0) {
-            $jMatrix[$sId]['new_match'] = 0;
-            $sjMatrix = json_encode($jMatrix);
-            file_put_contents('../storage/matches.txt');
-            $saMatches = json_encode($aMatches);
-            echo '{"status":"success", "message":"here are your matches", "data":'.$saMatches.'}';
-            exit;
-        }
-        
-        echo '{"status":"error","message":"there are no matches"}';
-        exit;
-    }
 
-    function dbGetMatches($jMatrix, $db) {
+    function dbGetMatches($db) {
         $accessToken = verifyLogin();
         $sId = dbGetUserId($accessToken, $db);
         
@@ -103,8 +79,6 @@
         }
 
         if(count($aMatches) > 0) {
-            $jMatrix[$sId]['new_match'] = 0;
-            $sjMatrix = json_encode($jMatrix);
             file_put_contents('../storage/matches.txt');
             $saMatches = json_encode($aMatches);
             echo '{"status":"success", "message":"here are your matches", "data":'.$saMatches.'}';

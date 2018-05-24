@@ -97,7 +97,7 @@
         }
     }
 
-    function dbGetNextUser($jMatrix, $db) {
+    function dbGetNextUser($db) {
         $accessToken = $_GET['id'];
         $iInterest = $_POST['interest'];
         $sId = dbGetUserId($accessToken, $db);

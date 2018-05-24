@@ -1,5 +1,5 @@
 <?php
-    function saveNewLocation($ajUsers, $db) {
+    function saveNewLocation($db) {
         $sId = $_GET['id'];
         $sLat = $_POST['latitude'];
         $sLong = $_POST['longitude'];

@@ -31,7 +31,7 @@ switch($sRequestType) {
     break;
 
     case 'login':   
-        login($ajUsers, $db);
+        login($db);
     break;
 
     case 'logout':
@@ -39,29 +39,29 @@ switch($sRequestType) {
     break;
 
     case 'signup': 
-        signup($ajUsers, $db);
+        signup($db);
     break;
     
     case 'like': 
-        onLike($jMatrix, $db);
+        onLike($db);
     break;
 
     case 'getUser':
         verifyLogin();
-        dbGetNextUser($jMatrix, $db);
+        dbGetNextUser($db);
     break;
 
     case 'getMatches':
-        dbGetMatches($jMatrix, $db);
+        dbGetMatches($db);
     break;
     
     case 'newMatch':
-        checkNewMatch($jMatrix, $db);
+        checkNewMatch($db);
     break;
 
     case 'saveLocation':
         verifyLogin();
-        saveNewLocation($ajUsers, $db);
+        saveNewLocation($db);
     break;
 
     case 'adminGetUsers': 

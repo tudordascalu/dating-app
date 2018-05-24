@@ -9,7 +9,7 @@
         exit;
     }
 
-    function login($ajUsers, $db) {
+    function login($db) {
         $sEmail = $_POST['email'];
         $sPassword = $_POST['password'];
         if($sEmail == 'admin@gmail.com' && $sPassword == 'admin') {
@@ -30,7 +30,7 @@
         exit;
     }
  
-    function signup($ajUsers, $db) {
+    function signup($db) {
         $sFirstName = $_POST['firstName'];
         $sLastName = $_POST['lastName'];
         $iAge = $_POST['age'];
