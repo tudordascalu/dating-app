@@ -21,8 +21,7 @@
         $db->beginTransaction();
         try{
             $stmt = $db->prepare('INSERT INTO users 
-                                VALUES (NULL, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 
-                                1, NULL, NULL, false');
+                                VALUES (NULL, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 1, NULL, NULL, NULL, :activation_key, false, NULL, NULL)');
 
             $stmt->bindValue(':firstName', $jUser->first_name);
             $stmt->bindValue(':lastName', $jUser->last_name);
