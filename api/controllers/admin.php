@@ -11,3 +11,13 @@
         $ajUsers = json_decode($saNewUsers);
         saveToStorage($ajUsers, './storage/users.txt');
     }
+
+    function dbAdminGetUsers($db) {
+        try{
+            $stmt->$db->prepare('SELECT access_token AS id, first_name, last_name, email FROM users WHERE access_token != "null"');
+            $aUsers = $stmt->fetchAll();
+            sendResponse(200, 'users', $aUsers);
+        }catch(PDOException $ex) {
+            echo $ex;
+        }
+    }

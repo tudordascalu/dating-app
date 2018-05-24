@@ -4,10 +4,10 @@
         $sId = dbGetUserId($sId, $db);
         $sjMatrix = json_encode($jMatrix[$sId]);
 
-        $sPath = '/matches/'.$sId;
-        $jUserLikes = CallAPI('GET', $sPath);
-        // echo $sjMatrix;
-        if($jUserLikes['new_match'] == 1) {
+        $sPath = '/matches/get/'.$sId;
+        $iMatch = CallAPI('GET', $sPath);
+        echo $sId;
+        if($iMatch == 1) {
             $sPath = '/matches/update/'.$sId.'/0';
             CallAPI('GET', $sPath);
             echo '{"status":"success", "message":"desktop notification", "data":'.$sjMatrix.'}';
@@ -97,6 +97,7 @@
             $sPath = '/matches/'.$sUserId;
             $jMatchLikes = CallAPI('GET', $sPath);
             if($jMatchLikes[$sId] == $jUserLikes[$sUserId] && $jMatchLikes[$sId] == 'like') {
+                $aUser['imageUrl'] = $aUser['profile_image'];
                 array_push($aMatches, $aUser);
             }
         }
