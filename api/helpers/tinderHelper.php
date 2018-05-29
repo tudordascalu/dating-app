@@ -121,8 +121,9 @@
                 // echo $jUserLikes[$jUser['id']];
                 // echo 'da';
                 if(!$jUserLikes[$jUser['id']]) {
-                    $jData->id = $jUser['access_token'];
+                    // $jData->id = $jUser['access_token'];
                     $jData->first_name = $jUser['first_name'];
+                    $jData->email = $jUser['email'];
                     $jData->last_name = $jUser['last_name'];
                     $jData->imageUrl = $jUser['profile_image'];
                     $jData->age = $jUser['age'];

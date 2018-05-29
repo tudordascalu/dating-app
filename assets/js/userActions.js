@@ -58,8 +58,8 @@ function onLike(response) {
   var mySong = new Audio('./assets/sounds/tick.mp3');
   mySong.play();
   const id = verifyAuth();
-  const sLikeId = JSON.parse(localStorage['TINDER_USER_DATA']).id;
-  apiLike(id, sLikeId, response ).then(data => {
+  const sLikeEmail = JSON.parse(localStorage['TINDER_USER_DATA']).email;
+  apiLike(id, sLikeEmail, response ).then(data => {
     showPage('tinder-page');
   }).catch(error => {
   })

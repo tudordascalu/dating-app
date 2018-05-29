@@ -75,14 +75,14 @@ function apiGetUsers(sUserId) {
   }
 
 
-  function apiLike(sUserId, sLikeId, sLike) {
+  function apiLike(sUserId, sEmail, sLike) {
     const sUrl = "/api/server.php?reqType=like&id=" + sUserId;
     const jData = {
-      "likeId": sLikeId,
+      "email": sEmail,
       "like": sLike
     }
     let formData = new FormData();
-    formData.append('likeId', sLikeId);
+    formData.append('email', sEmail);
     formData.append('like', sLike);
     return new Promise((resolve, reject) => {
       axios

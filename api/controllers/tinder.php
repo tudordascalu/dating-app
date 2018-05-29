@@ -18,12 +18,12 @@
 
     function onLike($db) {
         $sId = verifyLogin();
-        $sLikeId = $_POST['likeId'];
+        $sEmail = $_POST['email'];
         $sLike = $_POST['like'];
         
         $sId = dbGetUserId($sId, $db);
-        $sLikeId = dbGetUserId($sLikeId, $db);
-        
+        $sLikeId = dbGetUserIdByEmail($sEmail, $db);
+        echo $sLikeId;
         if($sId == $sLikeId) {
             echo '{"status":"error","message":"user id is not valid"}';
             exit;

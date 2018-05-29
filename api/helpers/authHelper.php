@@ -21,7 +21,7 @@
         $db->beginTransaction();
         try{
             $stmt = $db->prepare('INSERT INTO users 
-                                VALUES (NULL, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 1, NULL, NULL, NULL, false, NULL, NULL)');
+                                VALUES (NULL, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 1, NULL, NULL, false, NULL, NULL)');
 
             $stmt->bindValue(':firstName', $jUser->first_name);
             $stmt->bindValue(':lastName', $jUser->last_name);
@@ -98,6 +98,18 @@
         try {
             $stmt = $db->prepare('CALL getUserId(:accessToken)');
             $stmt->bindValue(':accessToken', $accessToken);
+            $stmt->execute();
+            $jData = $stmt->fetchObject();
+            return $jData->user_id;
+        } catch ( PDOException $ex) {
+            sendResponse(500, "server error", null);
+        }
+    }
+
+    function dbGetUserIdByEmail($email, $db) {
+        try {
+            $stmt = $db->prepare('SELECT id AS user_id FROM users WHERE email = :email LIMIT 1');
+            $stmt->bindValue(':email', $email);
             $stmt->execute();
             $jData = $stmt->fetchObject();
             return $jData->user_id;
