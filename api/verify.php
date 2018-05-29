@@ -16,7 +16,7 @@
             if($stmt->execute()) {
                 $row = $stmt->fetchObject();
                 $user_id = $row->user_id;
-                $stmt = $db->prepare('UPDATE users SET verified = true, activation_key = NULL, access_token = :accessToken WHERE id = :id');
+                $stmt = $db->prepare('UPDATE users SET verified = true, access_token = :accessToken WHERE id = :id');
                 $stmt->bindValue(':accessToken', $access_token);
                 $stmt->bindValue(':id', $user_id);
                 $stmt->execute();

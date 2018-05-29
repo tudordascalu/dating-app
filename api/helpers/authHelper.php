@@ -21,7 +21,7 @@
         $db->beginTransaction();
         try{
             $stmt = $db->prepare('INSERT INTO users 
-                                VALUES (NULL, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 1, NULL, NULL, NULL, :activation_key, false, NULL, NULL)');
+                                VALUES (NULL, :firstName, :lastName, :email, :pass, :gender, :age, :motto, :interest, :profile_image, 1, NULL, NULL, NULL, false, NULL, NULL)');
 
             $stmt->bindValue(':firstName', $jUser->first_name);
             $stmt->bindValue(':lastName', $jUser->last_name);
@@ -32,7 +32,7 @@
             $stmt->bindValue(':motto', $jUser->description);
             $stmt->bindValue(':interest', $jUser->interest);
             $stmt->bindValue(':profile_image', $jUser->imageUrl); 
-            $stmt->bindValue(':activation_key', $jUser->activation_key);
+            // $stmt->bindValue(':activation_key', $jUser->activation_key);
 
             if($stmt->execute()) {
                 $user_id = $db->lastInsertId();
